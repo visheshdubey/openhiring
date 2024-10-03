@@ -1,34 +1,47 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "express-validator": "^7.2.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/dotenv": "^8.2.0",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.7.4",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-node": "^4.1.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "nodemon": "^3.1.7",
-    "prettier": "^3.3.3",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.2"
-  }
+     "name": "backend",
+     "version": "1.0.0",
+     "main": "index.js",
+     "scripts": {
+          "acp": "git add -A && git commit -m",
+          "dev": "nodemon  src/index.ts",
+          "lint": "eslint \"./**/*.ts\"",
+          "format": "eslint \"./**/*.ts\" --fix",
+          "pretty": "prettier --write \"./**/*.ts\"",
+          "build": "tsc && tsc-alias && node dist/index.js",
+          "start": "node dist/src/index.js",
+          "migrate": "npx drizzle-kit generate",
+          "db-push": "npx drizzle-kit push",
+          "studio": "npx drizzle-kit studio"
+     },
+     "keywords": [],
+     "author": "",
+     "license": "ISC",
+     "description": "",
+     "dependencies": {
+          "cors": "^2.8.5",
+          "dotenv": "^16.4.5",
+          "drizzle-orm": "^0.33.0",
+          "express": "^4.21.0",
+          "express-validator": "^7.2.0",
+          "postgres": "^3.4.4",
+          "zod": "^3.23.8"
+     },
+     "devDependencies": {
+          "@types/cors": "^2.8.17",
+          "@types/dotenv": "^8.2.0",
+          "@types/express": "^5.0.0",
+          "@types/node": "^22.7.4",
+          "drizzle-kit": "^0.24.2",
+          "eslint": "^8.57.1",
+          "eslint-config-airbnb-base": "^15.0.0",
+          "eslint-config-node": "^4.1.0",
+          "eslint-config-prettier": "^9.1.0",
+          "eslint-plugin-node": "^11.1.0",
+          "eslint-plugin-prettier": "^5.2.1",
+          "nodemon": "^3.1.7",
+          "prettier": "^3.3.3",
+          "tsx": "^4.19.1",
+          "typescript": "^5.6.2"
+     }
 }

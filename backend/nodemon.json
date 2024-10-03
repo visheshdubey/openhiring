@@ -1,7 +1,7 @@
 {
-  "watch": ["src"],
-  "ext": "ts",
-  "ignore": ["src/**/*.spec.ts"],
-  "exec": "tsx src/app.ts",
-  "legacyWatch": true
+     "watch": ["src"],
+     "ext": "ts",
+     "ignore": ["src/**/*.spec.ts"],
+     "exec": "tsx src/index.ts",
+     "legacyWatch": true
 }
