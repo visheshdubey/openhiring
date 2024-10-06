@@ -1,4 +1,4 @@
-import { UserRoleType } from '@/entities/constants/rbac';
+import { UserRole } from '@/entities/constants/rbac';
 import { pgEnum } from 'drizzle-orm/pg-core';
 
-export const RoleType = pgEnum('RoleType', [UserRoleType.User, UserRoleType.Admin]);
+export const UserRoleEnum = pgEnum('Role', [UserRole.User, UserRole.Admin]);
