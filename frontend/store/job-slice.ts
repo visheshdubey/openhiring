@@ -1,31 +1,51 @@
 import { ImmerStateCreator } from "./types";
 
 type JobState = {
-    bookmarkedJobs: string[],
-    filters: {
-        salary: number[]
-    }
+    filters: JobFilters
 }
 
-type JobActions = {
-    addBookmarkJobs: (jobId: string) => void
+type JobRangeFilters = {
+    salary: number[];
+    experience: number[];
+
 }
+type JobMultiSelectFilters = {
+    workLocation: string[];
+    technology: string[];
+    jobType: string[];
+    showOptions: string[];
+}
+
+type JobFilters = JobRangeFilters & JobMultiSelectFilters
+
+type JobActions = {
+    updateRangeFilter: (filterId: keyof JobRangeFilters, value: number[]) => void;
+    updateMultiSelectFilter: (filterId: keyof JobMultiSelectFilters, value: string[]) => void;
+};
 
 type JobSlice = { jobs: JobState & JobActions };
 
 const initialState: JobState = {
-    bookmarkedJobs: [],
     filters: {
-        salary: []
+        salary: [10, 50],
+        experience: [0, 1],
+        workLocation: [],
+        technology: [],
+        jobType: [],
+        showOptions: [],
     }
 }
 
 export const createJobSlice: ImmerStateCreator<JobSlice> = (set) => ({
     jobs: {
         ...initialState,
-        addBookmarkJobs: (jobId) =>
+        updateRangeFilter: (filterId, value) =>
             set(({ jobs }: JobSlice) => {
-                jobs.bookmarkedJobs = [...jobs.bookmarkedJobs, jobId]
+                jobs.filters[filterId] = value
+            }),
+        updateMultiSelectFilter: (filterId, salaryRange) =>
+            set(({ jobs }: JobSlice) => {
+                jobs.filters[filterId] = salaryRange
             }),
     }
 })
