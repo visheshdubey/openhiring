@@ -16,20 +16,13 @@ enum UserRole {
 }
 
 model User {
-  id        String         @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String?
-  email     String?        @unique
+  email     String?  @unique
   avatar    String?
   token     String?
-  role      UserRole       @default(USER)
-  bookmarks ProcessedJob[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-}
-
-model RawJob {
-  id        String   @id @default(cuid())
-  data      String
+  role      UserRole @default(USER)
+  bookmarks Job[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -54,7 +47,7 @@ enum JobWorkMode {
   HYBRID
 }
 
-model ProcessedJob {
+model Job {
   id              String       @id @default(cuid())
   company         String?
   jobTitle        String?
@@ -68,6 +61,7 @@ model ProcessedJob {
   technology      String[]
   experienceRange Int[]
   tags            String[]
+  raw             String
   seekingWork     Boolean      @default(false)
   status          JobStatus    @default(AWAITING_USER_INFO)
   createdAt       DateTime     @default(now())
