@@ -18,6 +18,7 @@ const instruction = ` Please extract the following information from the given jo
   "applyEmails": [String] or [],
   "applyLinks": [String] or [],
   "technology": [String] or [],
+  "seekingWork": Boolean
   "experienceRange": [Number, Number] or [], It is a range
   "tags": [String] or []
 }
@@ -49,6 +50,7 @@ export const jobSchema = z.object({
     applyEmails: z.array(z.string()).optional(),
     applyLinks: z.array(z.string()).optional(),
     technology: z.array(z.string()).optional(),
+    seekingWork: z.boolean(),
     experienceRange: z
         .array(z.number())
         .optional(),
