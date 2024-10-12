@@ -85,6 +85,26 @@ class BunnyCDNClient {
     public async moveFile(sourcePath: string, destinationPath: string): Promise<void> {
         await this.renameFile(sourcePath, destinationPath);
     }
+
+    public async readFile(filePath: string): Promise<any[]> {
+        const response = await this.axios.get(filePath, {
+            responseType: 'text',
+            transformResponse: [(data) => data],
+        });
+
+        const contentType = response.headers['content-type'];
+
+        if (contentType && contentType.includes('application/json')) {
+            try {
+                return JSON.parse(response.data);
+            } catch (error) {
+                console.warn('Failed to parse JSON, returning raw text');
+                return response.data;
+            }
+        }
+
+        return response.data;
+    }
 }
 
 export default BunnyCDNClient;
