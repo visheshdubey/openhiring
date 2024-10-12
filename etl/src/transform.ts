@@ -1,51 +1,3 @@
-// import { BunnyPath, TRANSFORM_INPUT_BATCH_SIZE } from "./config/constants";
-// import { jobSchema, openai, prompt } from "./config/openai";
-
-// import { cdn } from "./config/cdn";
-// import { getUnixTime } from "date-fns";
-
-// export const transformTask = async () => {
-//     const files = await cdn.listFiles(BunnyPath.extractOutputDir())
-//     const pickedFiles = files.slice(0, 1 || TRANSFORM_INPUT_BATCH_SIZE)
-
-//     let processedFiles = []
-//     let rawAndProcessedJobList = [];
-
-//     for (const file of pickedFiles) {
-//         try {
-//             const fileContent = await cdn.readFile(BunnyPath.extractOutputDir(file.ObjectName))
-
-//             for (const jsonJobItem of fileContent) {
-//                 const jobItem = JSON.stringify(jsonJobItem)
-//                 const transformedJsonJobItem = await openai.schemaBasedCompletion(jobItem, prompt, jobSchema)
-
-//                 const rawAndProcessedJobItem = {
-//                     raw: jobItem,
-//                     proccessed: transformedJsonJobItem
-//                 }
-
-//                 rawAndProcessedJobList.push(rawAndProcessedJobItem)
-//             }
-
-//             processedFiles.push(file)
-//         } catch (e) {
-//             console.log('failed to process ', file.ObjectName);
-//         }
-//     }
-
-//     const transformedJobListBuffer = Buffer.from(JSON.stringify(rawAndProcessedJobList))
-//     const timestamp = getUnixTime(new Date());
-
-//     await cdn.uploadFile(BunnyPath.transformOutputDir(`${timestamp}.json`), transformedJobListBuffer)
-
-//     for (const file of processedFiles) {
-//         await cdn.deleteFile(BunnyPath.extractOutputDir(file.ObjectName))
-//     }
-
-//     console.log('Transformation completed');
-
-// }
-
 import { BunnyPath, TRANSFORM_INPUT_BATCH_SIZE } from "./config/constants";
 import { jobSchema, openai, prompt } from "./config/openai";
 
@@ -77,8 +29,8 @@ const transformJobItem = async (jobItem: any) => {
     const transformedJobItem = await openai.schemaBasedCompletion(stringifiedJobItem, prompt, jobSchema);
 
     return {
-        raw: stringifiedJobItem,
-        processed: transformedJobItem
+        raw: jobItem,
+        processed: JSON.parse(transformedJobItem || '[]')
     };
 };
 
