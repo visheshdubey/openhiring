@@ -1,22 +1,21 @@
 import { ImmerStateCreator } from "./types";
 
 type JobState = {
-    filters: JobFilters
-}
+    filters: JobFilters;
+};
 
 type JobRangeFilters = {
     salary: number[];
     experience: number[];
-
-}
+};
 type JobMultiSelectFilters = {
     workLocation: string[];
     technology: string[];
     jobType: string[];
     showOptions: string[];
-}
+};
 
-type JobFilters = JobRangeFilters & JobMultiSelectFilters
+type JobFilters = JobRangeFilters & JobMultiSelectFilters;
 
 type JobActions = {
     updateRangeFilter: (filterId: keyof JobRangeFilters, value: number[]) => void;
@@ -33,21 +32,19 @@ const initialState: JobState = {
         technology: [],
         jobType: [],
         showOptions: [],
-    }
-}
+    },
+};
 
 export const createJobSlice: ImmerStateCreator<JobSlice> = (set) => ({
     jobs: {
         ...initialState,
         updateRangeFilter: (filterId, value) =>
             set(({ jobs }: JobSlice) => {
-                jobs.filters[filterId] = value
+                jobs.filters[filterId] = value;
             }),
         updateMultiSelectFilter: (filterId, salaryRange) =>
             set(({ jobs }: JobSlice) => {
-                jobs.filters[filterId] = salaryRange
+                jobs.filters[filterId] = salaryRange;
             }),
-    }
-})
-
-
+    },
+});

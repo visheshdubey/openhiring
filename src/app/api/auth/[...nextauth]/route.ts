@@ -8,21 +8,20 @@ export const authOptions: NextAuthOptions = {
     providers: [GoogleAuth, GithubAuth],
     secret: process.env.NEXTAUTH_SECRET,
     session: {
-        strategy: 'jwt'
+        strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, user }: { token: JWTToken, user?: any }) {
+        async jwt({ token, user }: { token: JWTToken; user?: any }) {
             if (user) {
                 token.id = user.id;
             }
 
             return token;
         },
-        async session({ session, token, }: { session: Session, token: JWTToken, }) {
+        async session({ session, token }: { session: Session; token: JWTToken }) {
             if (session.user) {
                 session.user.id = token.id as string;
-                session.user.token = token
-
+                session.user.token = token;
             }
             return session;
         },
@@ -30,7 +29,6 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/auth/signin",
     },
-
 };
 
 const handler = NextAuth(authOptions);

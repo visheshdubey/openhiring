@@ -1,26 +1,29 @@
-import { devtools, persist, subscribeWithSelector } from 'zustand/middleware';
+import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 
-import { create } from 'zustand';
-import { createJobSlice } from './job-slice';
-import { immer } from 'zustand/middleware/immer';
+import { create } from "zustand";
+import { createJobSlice } from "./job-slice";
+import { immer } from "zustand/middleware/immer";
 
-const createStoreSlice = ((set: any, get: any, store: any) => ({
+const createStoreSlice = (set: any, get: any, store: any) => ({
     ...createJobSlice(set, get, store),
-}));
+});
 
-const createPersistedStoreSlice = ((set: any, get: any, store: any) => ({
+const createPersistedStoreSlice = (set: any, get: any, store: any) => ({
     ...createJobSlice(set, get, store),
-}));
+});
 
-const logger = (config: any, { name }: { name?: string }) => (set: any, get: any, api: any) => config(
-    (args: any) => {
-        // console.log(`--- ${name} prev:`, get());
-        set(args);
-        console.log(`+++ ${name} next:`, get());
-    },
-    get,
-    api
-);
+const logger =
+    (config: any, { name }: { name?: string }) =>
+    (set: any, get: any, api: any) =>
+        config(
+            (args: any) => {
+                // console.log(`--- ${name} prev:`, get());
+                set(args);
+                console.log(`+++ ${name} next:`, get());
+            },
+            get,
+            api,
+        );
 
 export const useStore = create<Store>()(
     devtools(
@@ -28,12 +31,12 @@ export const useStore = create<Store>()(
             subscribeWithSelector(
                 immer((...a) => ({
                     ...createStoreSlice(...a),
-                }))
+                })),
             ),
-            { name: 'store' }
+            { name: "store" },
         ),
-        { name: "Zustand Devtools" }
-    )
+        { name: "Zustand Devtools" },
+    ),
 );
 
 export const usePersistedStore = create<Store>()(
@@ -43,15 +46,16 @@ export const usePersistedStore = create<Store>()(
                 subscribeWithSelector(
                     immer((...a) => ({
                         ...createPersistedStoreSlice(...a),
-                    }))
+                    })),
                 ),
                 {
-                    name: 'local-storage',
-                }
+                    name: "local-storage",
+                },
             ),
-            { name: 'persisted-store' }),
-        { name: "Zustand Devtools" }
-    )
+            { name: "persisted-store" },
+        ),
+        { name: "Zustand Devtools" },
+    ),
 );
 
 export type Store = ReturnType<typeof createStoreSlice>;

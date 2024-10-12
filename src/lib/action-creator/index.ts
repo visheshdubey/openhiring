@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export type FieldErrors<T> = {
     [K in keyof T]?: string[];
@@ -10,13 +10,11 @@ export type ActionState<TInput, TOutput> = {
     data?: TOutput;
 };
 
-export type SafeActionHandler<TInput, TOutput> = (
-    validatedData: TInput
-) => Promise<ActionState<TInput, TOutput>>;
+export type SafeActionHandler<TInput, TOutput> = (validatedData: TInput) => Promise<ActionState<TInput, TOutput>>;
 
 export const createSafeAction = <TInput, TOutput>(
     schema: z.Schema<TInput>,
-    handler: SafeActionHandler<TInput, TOutput>
+    handler: SafeActionHandler<TInput, TOutput>,
 ) => {
     return async (data: unknown): Promise<ActionState<TInput, TOutput>> => {
         try {
@@ -30,9 +28,9 @@ export const createSafeAction = <TInput, TOutput>(
 
             return await handler(validationResult.data);
         } catch (error) {
-            console.error('Unexpected error in safe action:', error);
+            console.error("Unexpected error in safe action:", error);
             return {
-                error: 'An unexpected error occurred. Please try again later.',
+                error: "An unexpected error occurred. Please try again later.",
             };
         }
     };

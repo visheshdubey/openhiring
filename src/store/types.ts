@@ -1,8 +1,3 @@
-import { StateCreator } from 'zustand';
+import { StateCreator } from "zustand";
 
-export type ImmerStateCreator<T> = StateCreator<
-    T,
-    [['zustand/immer', never]],
-    [],
-    T
->;
+export type ImmerStateCreator<T> = StateCreator<T, [["zustand/immer", never]], [], T>;

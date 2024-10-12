@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 interface JobSearchInputProps {
     onSearch: (query: string) => void;
@@ -17,14 +17,14 @@ const JobSearchInput: React.FC<JobSearchInputProps> = ({
     buttonText = "Search",
     className = "",
 }) => {
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState("");
 
     const handleSearch = () => {
         onSearch(query);
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             handleSearch();
         }
     };
