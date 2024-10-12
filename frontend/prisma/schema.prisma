@@ -57,6 +57,7 @@ enum JobWorkMode {
 model ProcessedJob {
   id              String       @id @default(cuid())
   company         String?
+  jobTitle        String?
   salaryRange     String[]
   salaryCurrency  String?
   jobType         JobType?
