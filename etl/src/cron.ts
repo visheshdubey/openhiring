@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { transformTask } from './transform';
+import { loadTask } from './load';
 
 // cron.schedule(env.EXTRACT_CRON, async () => {
 //     console.log("Running Extract process...");
@@ -28,4 +28,6 @@ import { transformTask } from './transform';
 
 // extractTask();
 
-transformTask()
+// transformTask()
+
+loadTask()
