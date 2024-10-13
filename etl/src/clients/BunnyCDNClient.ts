@@ -108,3 +108,5 @@ class BunnyCDNClient {
 }
 
 export default BunnyCDNClient;
+
+export { FileListItem }

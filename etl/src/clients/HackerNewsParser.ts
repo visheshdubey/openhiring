@@ -200,30 +200,3 @@ export class HackerNewsParser {
         );
     }
 }
-
-// Example usage:
-// const parser = new HackerNewsParser();
-// parser.process('./output').catch((err) => console.error(err));
-
-
-// function convertTimestampToIST(timestamp) {
-//     // Convert to milliseconds
-//     const date = new Date(timestamp * 1000);
-
-//     // Options for formatting the date
-//     const options = {
-//         timeZone: "Asia/Kolkata",
-//         year: "numeric",
-//         month: "2-digit",
-//         day: "2-digit",
-//         hour: "2-digit",
-//         minute: "2-digit",
-//         second: "2-digit",
-//         hour12: true, // 12-hour format
-//     };
-
-//     // Format the date to a readable string
-//     const istDateString = date.toLocaleString("en-IN", options);
-
-//     return istDateString;
-// }

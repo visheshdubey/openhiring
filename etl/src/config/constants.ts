@@ -9,4 +9,5 @@ export const BunnyPath = {
     loadOutputDir: () => ``,
 }
 
-export const TRANSFORM_INPUT_BATCH_SIZE = 10
+export const TRANSFORM_INPUT_BATCH_SIZE = 1
+export const LOAD_INPUT_BATCH_SIZE = 1

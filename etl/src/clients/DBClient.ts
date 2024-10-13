@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+import cuid from 'cuid';
 
 export type DBJobData = {
     company?: string;
@@ -53,12 +54,12 @@ export class DBClient {
         } = jobData;
 
         const query = `
-            INSERT INTO Job (
-                company, jobTitle, salaryRange, salaryCurrency,
-                jobType, jobWorkMode, location, applyEmails,
-                applyLinks, technology, experienceRange, tags,
-                raw, seekingWork, userId
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+            INSERT INTO public."Job" (
+                company, job_title, salary_range, salary_currency,
+                job_type, job_work_mode, location, apply_emails,
+                apply_links, technology, experience_range, tags,
+                raw, seeking_work, id, updated_at
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
         `;
 
         const values = [
@@ -76,7 +77,8 @@ export class DBClient {
             tags,
             raw,
             seekingWork || false,
-            userId,
+            cuid(),
+            new Date()
         ];
 
         try {
