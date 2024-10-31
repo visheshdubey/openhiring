@@ -1,4 +1,4 @@
-import { AuthProvider, User, UserRole } from "@prisma/client";
+import { User, UserRole } from "@prisma/client";
 
 import prisma from "@/server/db/prisma";
 
@@ -21,7 +21,8 @@ export async function createUser(userData: AuthUserData): Promise<User> {
             email: userData.email,
             name: userData.name || null,
             avatar: userData.avatar || null,
-            provider: userData.provider as AuthProvider,
+            //! TODO:
+            // provider: userData.provider,
             role: UserRole.USER
         }
     });
@@ -29,7 +30,7 @@ export async function createUser(userData: AuthUserData): Promise<User> {
 
 export async function updateUserLogin(
     userId: string,
-    provider: AuthProvider
+    provider: string
 ): Promise<User> {
     return prisma.user.update({
         where: { id: userId },
@@ -62,7 +63,7 @@ export async function findOrCreateUser(
             data: {
                 name: userData.name || existingUser.name,
                 avatar: userData.avatar || existingUser.avatar,
-                provider: userData.provider as AuthProvider,
+                provider: userData.provider,
                 token: token || existingUser.token,
                 updatedAt: new Date()
             }
