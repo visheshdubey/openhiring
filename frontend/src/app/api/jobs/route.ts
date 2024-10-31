@@ -1,8 +1,7 @@
-import { HackerNewsParser } from "@/lib/hackernews-client/HackerNewsParser";
+import { getJobList } from "@/lib/db/jobs"
 
-export const POST = async () => {
-    const parser = new HackerNewsParser();
-    const jobs = await parser.process('./output');
+export const GET = async () => {
+    const jobs = await getJobList()
 
-    return Response.json({ jobs, length: Object.keys(jobs[0]).length })
+    return Response.json({ data: jobs })
 }
