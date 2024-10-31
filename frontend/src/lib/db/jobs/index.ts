@@ -1,5 +1,5 @@
 import { Job } from "@prisma/client";
-import prisma from '@/lib/db/prisma';
+import prisma from '@/server/db/prisma';
 
 type PaginatedResponse<T> = {
     items: T[];

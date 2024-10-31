@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import ReactQueryProvider from "@/lib/components/proviers/ReactQueryProvider";
+import ReactQueryProvider from "./ReactQueryProvider";
 import { SessionProvider } from "next-auth/react";
 
 type Props = {

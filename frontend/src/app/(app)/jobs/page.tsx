@@ -1,11 +1,10 @@
 "use client";
 
 import AppHeader from "@/features/navigation/components/AppHeader";
-import { FilterOptions } from "@/lib/configs/job";
-import FilterSideBar from "@/lib/components/job-list/FilterSideBar";
-import { Job } from "@/lib/components/job-list/types";
-import JobCard from "@/lib/components/job-list/JobCard";
-import JobSearchInput from "@/lib/components/job-list/JobSearchInput";
+// import FilterSideBar from "@/lib/components/job-list/FilterSideBar";
+// import { Job } from "@/lib/components/job-list/types";
+// import JobCard from "@/lib/components/job-list/JobCard";
+// import JobSearchInput from "@/lib/components/job-list/JobSearchInput";
 import { fetchJobs } from "@/lib/api-client/api-client";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -34,73 +33,73 @@ const jobTags: JobTags = [
     { id: 8, name: "Urgent", variant: "destructive", order: 8 },
 ];
 
-export const sampleJobs: Job[] = [
-    {
-        id: "1",
-        title: "Full Stack Developer",
-        company: "Campusmonk",
-        tags: [
-            { name: "React", variant: "secondary" },
-            { name: "Node.js", variant: "secondary" },
-            { name: "TypeScript", variant: "secondary" },
-            { name: "Remote", variant: "secondary" },
-        ],
-        isFavorite: false,
-        postedDate: "04 Oct, 2024",
-    },
-    {
-        id: "2",
-        title: "UX Designer",
-        company: "DesignCo",
-        tags: [
-            { name: "Figma", variant: "secondary" },
-            { name: "UI/UX", variant: "secondary" },
-            { name: "Prototyping", variant: "secondary" },
-            { name: "Hybrid", variant: "secondary" },
-        ],
-        isFavorite: true,
-        postedDate: "03 Oct, 2024",
-    },
-    {
-        id: "3",
-        title: "Data Scientist",
-        company: "DataTech Solutions",
-        tags: [
-            { name: "Python", variant: "secondary" },
-            { name: "Machine Learning", variant: "secondary" },
-            { name: "SQL", variant: "secondary" },
-            { name: "On-site", variant: "destructive" },
-        ],
-        isFavorite: false,
-        postedDate: "02 Oct, 2024",
-    },
-    {
-        id: "4",
-        title: "DevOps Engineer",
-        company: "CloudScale Inc.",
-        tags: [
-            { name: "AWS", variant: "secondary" },
-            { name: "Docker", variant: "secondary" },
-            { name: "Kubernetes", variant: "secondary" },
-            { name: "Remote", variant: "secondary" },
-        ],
-        isFavorite: false,
-        postedDate: "01 Oct, 2024",
-    },
-    {
-        id: "5",
-        title: "Mobile App Developer",
-        company: "AppWizards",
-        tags: [
-            { name: "React Native", variant: "secondary" },
-            { name: "iOS", variant: "secondary" },
-            { name: "Android", variant: "secondary" },
-            { name: "Hybrid", variant: "secondary" },
-        ],
-        isFavorite: true,
-        postedDate: "30 Sep, 2024",
-    },
-];
+// export const sampleJobs: Job[] = [
+//     {
+//         id: "1",
+//         title: "Full Stack Developer",
+//         company: "Campusmonk",
+//         tags: [
+//             { name: "React", variant: "secondary" },
+//             { name: "Node.js", variant: "secondary" },
+//             { name: "TypeScript", variant: "secondary" },
+//             { name: "Remote", variant: "secondary" },
+//         ],
+//         isFavorite: false,
+//         postedDate: "04 Oct, 2024",
+//     },
+//     {
+//         id: "2",
+//         title: "UX Designer",
+//         company: "DesignCo",
+//         tags: [
+//             { name: "Figma", variant: "secondary" },
+//             { name: "UI/UX", variant: "secondary" },
+//             { name: "Prototyping", variant: "secondary" },
+//             { name: "Hybrid", variant: "secondary" },
+//         ],
+//         isFavorite: true,
+//         postedDate: "03 Oct, 2024",
+//     },
+//     {
+//         id: "3",
+//         title: "Data Scientist",
+//         company: "DataTech Solutions",
+//         tags: [
+//             { name: "Python", variant: "secondary" },
+//             { name: "Machine Learning", variant: "secondary" },
+//             { name: "SQL", variant: "secondary" },
+//             { name: "On-site", variant: "destructive" },
+//         ],
+//         isFavorite: false,
+//         postedDate: "02 Oct, 2024",
+//     },
+//     {
+//         id: "4",
+//         title: "DevOps Engineer",
+//         company: "CloudScale Inc.",
+//         tags: [
+//             { name: "AWS", variant: "secondary" },
+//             { name: "Docker", variant: "secondary" },
+//             { name: "Kubernetes", variant: "secondary" },
+//             { name: "Remote", variant: "secondary" },
+//         ],
+//         isFavorite: false,
+//         postedDate: "01 Oct, 2024",
+//     },
+//     {
+//         id: "5",
+//         title: "Mobile App Developer",
+//         company: "AppWizards",
+//         tags: [
+//             { name: "React Native", variant: "secondary" },
+//             { name: "iOS", variant: "secondary" },
+//             { name: "Android", variant: "secondary" },
+//             { name: "Hybrid", variant: "secondary" },
+//         ],
+//         isFavorite: true,
+//         postedDate: "30 Sep, 2024",
+//     },
+// ];
 
 const JobPage = (props: Props) => {
     const getWorkProjects = useQuery({
@@ -116,7 +115,7 @@ const JobPage = (props: Props) => {
         <div className="bg-neutral-50 min-h-screen">
             <AppHeader className="sticky top-0 z-50" />
 
-            <div className="w-full px-4">
+            {/* <div className="w-full px-4">
                 <div className="relative flex max-w-screen-xl w-full mx-auto mt-4 gap-8">
                     <FilterSideBar filterOptions={FilterOptions} />
 
@@ -140,7 +139,7 @@ const JobPage = (props: Props) => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

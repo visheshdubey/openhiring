@@ -15,16 +15,22 @@ enum UserRole {
   USER
 }
 
+enum AuthProvider {
+  GOOGLE
+  GITHUB
+}
+
 model User {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   name      String?
-  email     String?  @unique
+  email     String?       @unique
   avatar    String?
   token     String?
-  role      UserRole @default(USER)
+  provider  AuthProvider?
+  role      UserRole      @default(USER)
   bookmarks Job[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 enum JobStatus {
