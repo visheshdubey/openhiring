@@ -16,16 +16,16 @@ enum UserRole {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  email     String?  @unique
-  avatar    String?
-  token     String?
-  provider  String?
-  role      UserRole @default(USER)
-  bookmarks Job[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String            @id @default(cuid())
+  name             String?
+  email            String?           @unique
+  avatar           String?
+  token            String?
+  provider         String?
+  role             UserRole          @default(USER)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  UserJobBookMarks UserJobBookMark[]
 }
 
 enum JobStatus {

@@ -29,4 +29,9 @@ export interface Job {
     createdAt: Date;
     updatedAt: Date;
     userId: string | null;
+    UserJobBookMarks?: {
+        id: string
+        userId: string
+        jobId: string
+    }[]
 }

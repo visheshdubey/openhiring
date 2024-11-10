@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/lib/shadcn/ui/button";
 import { FilterOptions } from "@/lib/configs/job";
 import { Job } from "../types";
 import JobCardList from "./JobCardList";
@@ -8,6 +7,7 @@ import JobFilters from "./JobFilters";
 import JobSearchInput from "./JobSearchInput";
 import { useEffect } from "react";
 import { useFetchInfiniteJobs } from "@/features/jobs/hooks/useFetchInfiniteJobs";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useStore } from "@/store/store";
 
 interface JobPageContainerProps {
@@ -20,20 +20,21 @@ interface JobPageContainerProps {
 
 const JobPageContainer = () => {
     const { filters, updateFilter } = useStore((state) => state.jobs);
-    const { data, refetch, isLoading, isFetching, status, fetchNextPage } = useFetchInfiniteJobs({ filters });
+    const { data, isFetching, status, hasNextPage, fetchNextPage } = useFetchInfiniteJobs({ filters });
+    const { targetRef, isIntersecting } = useIntersectionObserver({
+        threshold: 0.1,
+        enabled: !isFetching && hasNextPage,
+    });
 
     const handleSearch = (term: string) => {
         updateFilter("search", term);
-        // refetch();
-    };
-
-    const handleLoadMore = () => {
-        fetchNextPage();
     };
 
     useEffect(() => {
-        console.log(data);
-    }, [data]);
+        if (isIntersecting && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [isIntersecting, hasNextPage, fetchNextPage]);
 
     return (
         <div className="w-full px-4">

@@ -233,6 +233,13 @@ export const getJobList = async (take: number = 50, searchQueryParams: any): Pro
         orderBy: {
             id: "asc",
         },
+        include: {
+            UserJobBookMarks: {
+                where: {
+                    userId
+                }
+            }
+        }
     });
 
     const totalItemsInDb = await prisma.job.count({ where })
@@ -248,15 +255,11 @@ export const getJobList = async (take: number = 50, searchQueryParams: any): Pro
     };
 };
 
-export const totalJobsInDB = async (): Promise<number> => await prisma.job.count();
-
-export const getBookmarkedJobList = async (email: string) => {
-    return await prisma.user.findUnique({
-        where: {
-            email,
-        },
-        select: {
-            bookmarks: true,
-        },
+export const addJobToMyBookMarkList = async (userId: string, jobId: string) => {
+    return await prisma.userJobBookMark.create({
+        data: {
+            jobId,
+            userId
+        }
     });
-};
+}
