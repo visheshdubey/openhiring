@@ -10,6 +10,8 @@ const instruction = ` Please extract the following information from the given jo
 {
   "company": String or undefined,
   "jobTitle": String or undefined,
+  "minSalary": If a salary range is not present add salary number here, else add minimum salary, 
+  "maxSalary": If a salary range is present add maximum salary,
   "salaryRange": [Number, Number] or [], First element is lower range, second higher. If there is only one element then it is the actual salary.
   "salaryCurrency": String or undefined,
   "jobType": "FullTime" | "PartTime" | "Contract" | "Freelance" | undefined,
@@ -18,15 +20,16 @@ const instruction = ` Please extract the following information from the given jo
   "applyEmails": [String] or [],
   "applyLinks": [String] or [],
   "technology": [String] or [],
+  "technologyDomain":  "WebDevelopment" | "BackendDevelopment" | "FrontendDevelopment" | "Web3_Blockchain" | "GameDevelopment"
   "seekingWork": Boolean
-  "experienceRange": [Number, Number] or [], It is a range
+  "minExperience": If a experience year range is not present add experience number here, else add minimum experience, 
+  "maxExperience": If a experience year range is present add maximum experience,
   "tags": [String] or []
 }
 
 Notes:
-- For salaryRange and experienceRange, use [min, max] format.
 - For jobType and jobWorkMode, use the exact values provided in the structure.
-- For arrays (salaryRange, applyEmails, applyLinks, technology, experienceRange, tags), if only one value is found, still use an array format.
+- For arrays (applyEmails, applyLinks, technology, tags), if only one value is found, still use an array format.
 - Extract any relevant technologies, programming languages, or tools mentioned in the posting for the "technology" field.
 - Use "tags" for any additional keywords or categories that describe the job or required skills.
 
@@ -40,9 +43,8 @@ export const prompt: PromptArray[] = [
 export const jobSchema = z.object({
     company: z.string().optional(),
     jobTitle: z.string().optional(),
-    salaryRange: z
-        .array(z.number())
-        .optional(),
+    minSalary: z.number().optional(),
+    maxSalary: z.number().optional(),
     salaryCurrency: z.string().optional(),
     jobType: z.enum(["FullTime", "PartTime", "Contract", "Freelance"]).optional(),
     jobWorkMode: z.enum(["Remote", "OnSite", "Hybrid"]).optional(),
@@ -50,10 +52,15 @@ export const jobSchema = z.object({
     applyEmails: z.array(z.string()).optional(),
     applyLinks: z.array(z.string()).optional(),
     technology: z.array(z.string()).optional(),
+    technologyDomain: z.enum([
+        "WebDevelopment",
+        "BackendDevelopment",
+        "FrontendDevelopment",
+        "Web3_Blockchain",
+        "GameDevelopment"]).optional(),
     seekingWork: z.boolean(),
-    experienceRange: z
-        .array(z.number())
-        .optional(),
+    minExperience: z.number().optional(),
+    maxExperience: z.number().optional(),
     tags: z.array(z.string()).optional(),
 });
 
