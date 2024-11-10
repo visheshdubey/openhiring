@@ -34,39 +34,28 @@ enum JobStatus {
   AWAITING_USER_INFO
 }
 
-enum JobType {
-  FullTime
-  Contract
-  Freelance
-  PartTime
-  INTERNSHIP
-}
-
-enum JobWorkMode {
-  Remote
-  OnSite
-  Hybrid
-}
-
 model Job {
-  id              String       @id @default(cuid()) @map("id")
-  company         String?      @map("company")
-  jobTitle        String?      @map("job_title")
-  salaryRange     String[]     @map("salary_range")
-  salaryCurrency  String?      @map("salary_currency")
-  jobType         JobType?     @map("job_type")
-  jobWorkMode     JobWorkMode? @map("job_work_mode")
-  location        String?      @map("location")
-  applyEmails     String[]     @map("apply_emails")
-  applyLinks      String[]     @map("apply_links")
-  technology      String[]     @map("technology")
-  experienceRange Int[]        @map("experience_range")
-  tags            String[]     @map("tags")
-  raw             String       @map("raw")
-  seekingWork     Boolean      @default(false) @map("seeking_work")
-  status          JobStatus    @default(AWAITING_USER_INFO) @map("status")
-  createdAt       DateTime     @default(now()) @map("created_at")
-  updatedAt       DateTime     @updatedAt @map("updated_at")
-  User            User?        @relation(fields: [userId], references: [id])
-  userId          String?      @map("user_id")
+  id               String    @id @default(cuid()) @map("id")
+  company          String?   @map("company")
+  jobTitle         String?   @map("job_title")
+  minSalary        Decimal?  @map("min_salary")
+  maxSalary        Decimal?  @map("max_salary")
+  salaryCurrency   String?   @map("salary_currency")
+  jobType          String?   @map("job_type")
+  jobWorkMode      String?   @map("job_work_mode")
+  location         String?   @map("location")
+  applyEmails      String[]  @map("apply_emails")
+  applyLinks       String[]  @map("apply_links")
+  technology       String[]  @map("technology")
+  technologyDomain String    @map("technology_domain")
+  minExperience    Decimal?  @map("min_experience")
+  maxExperience    Decimal?  @map("max_experience")
+  tags             String[]  @map("tags")
+  raw              String    @map("raw")
+  seekingWork      Boolean   @default(false) @map("seeking_work")
+  status           JobStatus @default(AWAITING_USER_INFO) @map("status")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  User             User?     @relation(fields: [userId], references: [id])
+  userId           String?   @map("user_id")
 }

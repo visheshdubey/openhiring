@@ -48,7 +48,7 @@ const JobPageContainer = () => {
                         </span>
                         <JobSearchInput onSearch={handleSearch} />
                     </div>
-                    <JobCardList jobs={data?.jobs || []} status={status} totalJobs={"totalJobs.toLocaleString()"} />
+                    <JobCardList jobs={data?.jobs || []} status={status} totalJobs={data?.total} />
                     {data?.hasMore && <Button onClick={handleLoadMore}>Load More</Button>}
                 </div>
             </div>

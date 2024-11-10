@@ -1,9 +1,12 @@
 import { Heart, PencilIcon } from "lucide-react";
+import { isEmpty, isNil } from "lodash";
 
 import { Badge } from "@/lib/shadcn/ui/badge";
 import { Button } from "@/lib/shadcn/ui/button";
 import { Job } from "../types";
+import JobCardExperienceRange from "./JobCardRangeFieldExperience";
 import JobCardNotSpecifiedFieldPlaceholder from "./JobCardNotSpecifiedFieldPlaceholder";
+import JobCardRangeFieldSalary from "./JobCardRangeFieldSalary";
 import { Separator } from "@/lib/shadcn/ui/separator";
 import { useState } from "react";
 
@@ -29,14 +32,8 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
         }
     };
 
-    const formatSalaryRange = (range: string[]) => {
-        if (range.length !== 2) return undefined;
-        return `${job.salaryCurrency || "$"} ${range[0]} - ${job.salaryCurrency || "$"} ${range[1]}`;
-    };
-
-    const formatExperienceRange = (range: number[]) => {
-        if (range.length !== 2) return undefined;
-        return `${range[0]}-${range[1]} years`;
+    const isMeaningfulValue = (value: string) => {
+        return !(isNil(value) || isEmpty(value) || value === "undefined");
     };
 
     const formatDate = (value: any) => value;
@@ -45,7 +42,7 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
         <div className="bg-card flex flex-col gap-5 lg:gap-8 w-full rounded-lg p-4 border border-neutral-100">
             <div className="flex items-start justify-between">
                 <div className="flex flex-col">
-                    <span className="text-base lg:text-lg font-medium text-secondary-foreground">
+                    <span className="text-base lg:text-lg capitalize font-medium text-secondary-foreground">
                         {job.jobTitle !== "undefined" ? job.jobTitle : <JobCardNotSpecifiedFieldPlaceholder fieldName="Role" />}
                     </span>
                     <span className="text-xs lg:text-sm text-neutral-500">
@@ -71,11 +68,28 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
             </div>
 
             <div className="flex flex-wrap gap-2 lg:gap-3">
-                {job.jobType && <Badge variant="secondary">{job.jobType.replace("_", " ")}</Badge>}
-                {job.jobWorkMode && <Badge variant="secondary">{job.jobWorkMode.replace("_", " ")}</Badge>}
-                {job.location && <Badge variant="secondary">{job.location}</Badge>}
+                {job.jobType && isMeaningfulValue(job.jobType.replace("_", " ")) && (
+                    <Badge variant="secondary" className="capitalize">
+                        {job.jobType.replace("_", " ")}
+                    </Badge>
+                )}
+                {job.jobWorkMode && isMeaningfulValue(job.jobWorkMode.replace("_", " ")) && (
+                    <Badge variant="secondary" className="capitalize">
+                        {job.jobWorkMode.replace("_", " ")}
+                    </Badge>
+                )}
+                {job.location && isMeaningfulValue(job.location) && (
+                    <Badge variant="secondary" className="capitalize">
+                        {job.location}
+                    </Badge>
+                )}
                 {job.tags.map((tag, index) => (
-                    <Badge key={`${job.id}-tag-${index}`} variant={getBadgeVariant(tag)}>
+                    <Badge key={`${job.id}-tag-${index}`} className="capitalize" variant={getBadgeVariant(tag)}>
+                        {tag}
+                    </Badge>
+                ))}
+                {job.technology.map((tag, index) => (
+                    <Badge key={`${job.id}-tag-${index}`} className="capitalize" variant={getBadgeVariant(tag)}>
                         {tag}
                     </Badge>
                 ))}
@@ -83,19 +97,11 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
 
             <div className="flex flex-wrap gap-2">
                 <span className="text-sm text-neutral-600">
-                    {formatSalaryRange(job.salaryRange) ? (
-                        formatSalaryRange(job.salaryRange)
-                    ) : (
-                        <JobCardNotSpecifiedFieldPlaceholder fieldName="Salary" />
-                    )}
+                    <JobCardRangeFieldSalary minSalary={job.minSalary} maxSalary={job.maxSalary} currency={job.salaryCurrency} />
                 </span>
                 <span className="text-sm text-neutral-600">•</span>
                 <span className="text-sm text-neutral-600">
-                    {formatExperienceRange(job.experienceRange) ? (
-                        formatExperienceRange(job.experienceRange)
-                    ) : (
-                        <JobCardNotSpecifiedFieldPlaceholder fieldName="Experience" />
-                    )}
+                    <JobCardExperienceRange minExperience={job.minExperience} maxExperience={job.maxExperience} />
                 </span>
             </div>
 

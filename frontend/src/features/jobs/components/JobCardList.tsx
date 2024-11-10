@@ -3,7 +3,7 @@ import JobCard from "./JobCard";
 import JobCardSkeleton from "./Skeleton";
 
 type Props = {
-    totalJobs: string | number; // Changed from string to number for better type safety
+    totalJobs?: string | number; // Changed from string to number for better type safety
     isError?: boolean;
     status?: "error" | "success" | "pending";
     jobs: Job[];
@@ -50,7 +50,7 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0 }: Props) =>
     return (
         <>
             <div className="w-full py-2">
-                <span className="text-sm text-neutral-500">Found {totalJobs.toLocaleString()} Jobs</span>
+                <span className="text-sm text-neutral-500">Found {totalJobs} Jobs</span>
             </div>
             <div className="flex flex-col gap-4">
                 {jobs.map((job) => (

@@ -11,7 +11,8 @@ export interface Job {
     id: string;
     company: string | null;
     jobTitle: string | null;
-    salaryRange: string[];
+    minSalary: string
+    maxSalary: string
     salaryCurrency: string | null;
     jobType: JobType | null;
     jobWorkMode: JobWorkMode | null;
@@ -19,7 +20,8 @@ export interface Job {
     applyEmails: string[];
     applyLinks: string[];
     technology: string[];
-    experienceRange: number[];
+    minExperience: string
+    maxExperience: string
     tags: string[];
     raw: string;
     seekingWork: boolean;
