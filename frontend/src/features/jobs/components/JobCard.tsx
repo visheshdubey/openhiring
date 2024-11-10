@@ -3,6 +3,7 @@ import { Heart, PencilIcon } from "lucide-react";
 import { Badge } from "@/lib/shadcn/ui/badge";
 import { Button } from "@/lib/shadcn/ui/button";
 import { Job } from "../types";
+import JobCardNotSpecifiedFieldPlaceholder from "./JobCardNotSpecifiedFieldPlaceholder";
 import { Separator } from "@/lib/shadcn/ui/separator";
 import { useState } from "react";
 
@@ -29,12 +30,12 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
     };
 
     const formatSalaryRange = (range: string[]) => {
-        if (range.length !== 2) return "Salary not specified";
-        return `${job.salaryCurrency || "$"}${range[0]} - ${job.salaryCurrency || "$"}${range[1]}`;
+        if (range.length !== 2) return undefined;
+        return `${job.salaryCurrency || "$"} ${range[0]} - ${job.salaryCurrency || "$"} ${range[1]}`;
     };
 
     const formatExperienceRange = (range: number[]) => {
-        if (range.length !== 2) return "Experience not specified";
+        if (range.length !== 2) return undefined;
         return `${range[0]}-${range[1]} years`;
     };
 
@@ -45,9 +46,12 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
             <div className="flex items-start justify-between">
                 <div className="flex flex-col">
                     <span className="text-base lg:text-lg font-medium text-secondary-foreground">
-                        {job.jobTitle || "Untitled Position"}
+                        {job.jobTitle !== "undefined" ? job.jobTitle : <JobCardNotSpecifiedFieldPlaceholder fieldName="Role" />}
                     </span>
-                    <span className="text-xs lg:text-sm text-neutral-500">{job.company || "Company not specified"}</span>
+                    <span className="text-xs lg:text-sm text-neutral-500">
+                        {" "}
+                        {job.company !== "undefined" ? job.company : <JobCardNotSpecifiedFieldPlaceholder fieldName="Company" />}
+                    </span>
                 </div>
                 <div className="flex items-center gap-2">
                     {onEdit && (
@@ -68,19 +72,31 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
 
             <div className="flex flex-wrap gap-2 lg:gap-3">
                 {job.jobType && <Badge variant="secondary">{job.jobType.replace("_", " ")}</Badge>}
-                {job.jobWorkMode && <Badge variant="outline">{job.jobWorkMode.replace("_", " ")}</Badge>}
-                {job.location && <Badge variant="outline">{job.location}</Badge>}
+                {job.jobWorkMode && <Badge variant="secondary">{job.jobWorkMode.replace("_", " ")}</Badge>}
+                {job.location && <Badge variant="secondary">{job.location}</Badge>}
                 {job.tags.map((tag, index) => (
-                    <Badge key={`${job.id}-tag-${index}`} variant={getBadgeVariant(tag)} className="font-normal lg:text-[13px]">
+                    <Badge key={`${job.id}-tag-${index}`} variant={getBadgeVariant(tag)}>
                         {tag}
                     </Badge>
                 ))}
             </div>
 
             <div className="flex flex-wrap gap-2">
-                <span className="text-sm text-neutral-600">{formatSalaryRange(job.salaryRange)}</span>
+                <span className="text-sm text-neutral-600">
+                    {formatSalaryRange(job.salaryRange) ? (
+                        formatSalaryRange(job.salaryRange)
+                    ) : (
+                        <JobCardNotSpecifiedFieldPlaceholder fieldName="Salary" />
+                    )}
+                </span>
                 <span className="text-sm text-neutral-600">•</span>
-                <span className="text-sm text-neutral-600">{formatExperienceRange(job.experienceRange)}</span>
+                <span className="text-sm text-neutral-600">
+                    {formatExperienceRange(job.experienceRange) ? (
+                        formatExperienceRange(job.experienceRange)
+                    ) : (
+                        <JobCardNotSpecifiedFieldPlaceholder fieldName="Experience" />
+                    )}
+                </span>
             </div>
 
             <Separator className="bg-neutral-100" />
@@ -99,7 +115,12 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                 </div>
             </div>
 
-            {showRawJobDescription && <div className="p-4 bg-secondary/60 rounded-lg text-secondary-foreground text-sm">{job.raw}</div>}
+            {showRawJobDescription && (
+                <div
+                    className="p-4 bg-secondary/60 rounded-lg text-secondary-foreground text-sm"
+                    dangerouslySetInnerHTML={{ __html: JSON.parse(job.raw).html }}
+                ></div>
+            )}
         </div>
     );
 };

@@ -1,4 +1,6 @@
-export type JobResponse = {}
+import { PaginatedResponse } from "@/lib/api-client/types";
+
+export type JobResponse = PaginatedResponse<Job>
 export type JobRequest = {}
 
 type JobType = "FULL_TIME" | "PART_TIME" | "CONTRACT" | "FREELANCE" | "INTERNSHIP";

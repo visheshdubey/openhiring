@@ -1,16 +1,13 @@
 import { Job } from "@prisma/client";
-import prisma from '@/server/db/prisma';
+import prisma from "@/server/db/prisma";
 
 type PaginatedResponse<T> = {
-    items: T[];
+    data: T[];
     nextCursor: string | null;
     hasMore: boolean;
-}
+};
 
-export const getJobList = async (
-    take: number = 5,
-    cursor?: string
-): Promise<PaginatedResponse<Job>> => {
+export const getJobList = async (take: number = 5, cursor?: string): Promise<PaginatedResponse<Job>> => {
     const items = await prisma.job.findMany({
         take: take + 1,
         ...(cursor
@@ -22,7 +19,7 @@ export const getJobList = async (
             }
             : {}),
         orderBy: {
-            id: 'asc',
+            id: "asc",
         },
     });
 
@@ -30,15 +27,21 @@ export const getJobList = async (
     const data = hasMore ? items.slice(0, -1) : items;
 
     return {
-        items: data,
+        data,
         nextCursor: hasMore ? data[data.length - 1].id : null,
         hasMore,
     };
 };
 
-// Example usage:
-// First page
-// const firstPage = await getJobList(10);
+export const totalJobsInDB = async (): Promise<number> => await prisma.job.count();
 
-// Next page using cursor
-// const nextPage = await getJobList(10, firstPage.nextCursor);
+export const getBookmarkedJobList = async (email: string) => {
+    return await prisma.user.findUnique({
+        where: {
+            email,
+        },
+        select: {
+            bookmarks: true,
+        },
+    });
+};

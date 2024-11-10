@@ -1,8 +1,14 @@
+"use client";
+
+import { Button } from "@/lib/shadcn/ui/button";
 import { FilterOptions } from "@/lib/configs/job";
-import FilterSideBar from "@/lib/components/job-list/FilterSideBar";
 import { Job } from "../types";
 import JobCardList from "./JobCardList";
-import JobSearchInput from "@/lib/components/job-list/JobSearchInput";
+import JobFilters from "./JobFilters";
+import JobSearchInput from "./JobSearchInput";
+import { useEffect } from "react";
+import { useFetchInfiniteJobs } from "@/features/jobs/hooks/useFetchInfiniteJobs";
+import { useStore } from "@/store/store";
 
 interface JobPageContainerProps {
     jobs: Job[];
@@ -12,15 +18,27 @@ interface JobPageContainerProps {
     onEditJob?: (jobId: string) => void;
 }
 
-const JobPageContainer = ({ jobs = [], isLoading = false, isError = false, totalJobs = 0, onEditJob }: JobPageContainerProps) => {
+const JobPageContainer = () => {
+    const { filters, updateFilter } = useStore((state) => state.jobs);
+    const { data, refetch, isLoading, isFetching, status, fetchNextPage } = useFetchInfiniteJobs({ filters });
+
     const handleSearch = (term: string) => {
-        console.log(term);
+        updateFilter("search", term);
+        // refetch();
     };
+
+    const handleLoadMore = () => {
+        fetchNextPage();
+    };
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     return (
         <div className="w-full px-4">
             <div className="relative flex max-w-screen-xl w-full mx-auto mt-4 gap-8">
-                <FilterSideBar filterOptions={FilterOptions} />
+                <JobFilters filterOptions={FilterOptions} />
 
                 <div className="grow flex-col w-full flex gap-4 mt-6">
                     <div className="flex flex-col gap-2 rounded-lg bg-primary px-4 py-6 lg:px-8 lg:py-14 bg-[radial-gradient(circle,rgba(118,49,237,1)_16%,rgba(92,10,232,1)_100%)]">
@@ -30,8 +48,8 @@ const JobPageContainer = ({ jobs = [], isLoading = false, isError = false, total
                         </span>
                         <JobSearchInput onSearch={handleSearch} />
                     </div>
-
-                    <JobCardList jobs={jobs} totalJobs={totalJobs.toLocaleString()} />
+                    <JobCardList jobs={data?.jobs || []} status={status} totalJobs={"totalJobs.toLocaleString()"} />
+                    {data?.hasMore && <Button onClick={handleLoadMore}>Load More</Button>}
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { cn } from "@/lib/shadcn/utils";
 
 type Option = {
-    id: string;
+    id: number;
     label: string;
 };
 

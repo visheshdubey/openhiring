@@ -12,7 +12,7 @@ type Props = {
 };
 
 const JobFilters = ({ filterOptions }: Props) => {
-    const { filters, updateMultiSelectFilter, updateRangeFilter } = useStore((state) => state.jobs);
+    const { filters, updateFilter } = useStore((state) => state.jobs);
     return (
         <div className="w-3/12 hidden lg:block sticky h-fit top-24 max-h-[calc(100vh-56px-48px)] overflow-y-auto scrollbar-none shrink-0 bg-white rounded-lg shadow shadow-neutral-200/80 px-4 pt-4 pb-6">
             <span className="font-medium">Filters</span>
@@ -23,7 +23,7 @@ const JobFilters = ({ filterOptions }: Props) => {
                         min={filterOptions.salary.min}
                         max={filterOptions.salary.max}
                         step={filterOptions.salary.step}
-                        onValueCommit={(value) => updateRangeFilter("salary", value)}
+                        onValueCommit={(value) => updateFilter("salary", value)}
                     />
                     <div className="flex justify-between">
                         <span className="text-xs text-neutral-600">${filters.salary[0]}K</span>
@@ -37,7 +37,7 @@ const JobFilters = ({ filterOptions }: Props) => {
                         min={filterOptions.experience.min}
                         max={filterOptions.experience.max}
                         step={filterOptions.experience.step}
-                        onValueCommit={(value) => updateRangeFilter("experience", value)}
+                        onValueCommit={(value) => updateFilter("experience", value)}
                     />
                     <div className="flex justify-between">
                         <span className="text-xs text-neutral-600">{filters.experience[0]} Y</span>
@@ -45,13 +45,13 @@ const JobFilters = ({ filterOptions }: Props) => {
                     </div>
                 </JobFilterRow>
 
-                <JobFilterRow label="Work Location">
+                <JobFilterRow label="Job work mode">
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
-                        onValueChange={(value) => updateMultiSelectFilter("workLocation", value)}
-                        defaultValue={filters.workLocation}
+                        onValueChange={(value) => updateFilter("jobWorkMode", value)}
+                        defaultValue={filters.jobWorkMode}
                     >
-                        {filterOptions.workLocation.map((option) => (
+                        {filterOptions.jobWorkMode.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
                         ))}
                     </MultiSelectFilter>
@@ -60,7 +60,7 @@ const JobFilters = ({ filterOptions }: Props) => {
                 <JobFilterRow label="Technology">
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
-                        onValueChange={(value) => updateMultiSelectFilter("technology", value)}
+                        onValueChange={(value) => updateFilter("technology", value)}
                         defaultValue={filters.technology}
                     >
                         {filterOptions.technology.map((option) => (
@@ -72,8 +72,8 @@ const JobFilters = ({ filterOptions }: Props) => {
                 <JobFilterRow label="Show">
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
-                        onValueChange={(value) => updateMultiSelectFilter("showOptions", value)}
-                        defaultValue={filters.jobType}
+                        onValueChange={(value) => updateFilter("showOptions", value)}
+                        defaultValue={filters.showOptions}
                     >
                         {filterOptions.showOptions.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
@@ -84,7 +84,7 @@ const JobFilters = ({ filterOptions }: Props) => {
                 <JobFilterRow label="Job Type">
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
-                        onValueChange={(value) => updateMultiSelectFilter("jobType", value)}
+                        onValueChange={(value) => updateFilter("jobType", value)}
                         defaultValue={filters.jobType}
                     >
                         {filterOptions.jobType.map((option) => (
