@@ -15,10 +15,10 @@ type JobRangeFilters = {
 };
 
 type JobMultiSelectFilters = {
-    jobWorkMode: string[];
-    technology: string[];
-    jobType: string[];
-    showOptions: string[];
+    jobWorkMode: number[];
+    technology: number[];
+    jobType: number[];
+    showOptions: number[];
 };
 
 type JobFilters = JobRangeFilters & JobMultiSelectFilters & JobStringFilters;
