@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { getJobList } from "@/server/db/jobs/JobRepository";
+import { queryStringToObject } from "@/lib/utils";
 
 export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
     // const session = await getAuthSession()
-    // const reqQueryObj = new URL(req.url || '')
-    // console.log(queryStringToObject(reqQueryObj.search)?.salary?.split(',').map(item => Number(item)));
-
-    const jobs = await getJobList()
+    const reqQueryObj = new URL(req.url || '')
+    const searchQueryParams = queryStringToObject(reqQueryObj.search, { arrayFormat: "comma" })
+    const jobs = await getJobList(undefined, searchQueryParams)
 
     return Response.json(jobs)
 }

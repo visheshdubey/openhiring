@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Job" ALTER COLUMN "max_salary" SET DATA TYPE TEXT,
+ALTER COLUMN "min_salary" SET DATA TYPE TEXT;

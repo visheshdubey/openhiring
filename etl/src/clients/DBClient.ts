@@ -4,7 +4,10 @@ import cuid from 'cuid';
 export type DBJobData = {
     company?: string;
     jobTitle?: string;
-    salaryRange: string[];
+    minSalary?: number;
+    maxSalary?: number;
+    minExperience?: number;
+    maxExperience?: number;
     salaryCurrency?: string;
     jobType?: string;
     jobWorkMode?: string;
@@ -17,6 +20,7 @@ export type DBJobData = {
     raw: string;
     seekingWork?: boolean;
     userId?: string;
+    technologyDomain?: string[]
 }
 export class DBClient {
     private static instance: DBClient;
@@ -38,7 +42,8 @@ export class DBClient {
         const {
             company,
             jobTitle,
-            salaryRange,
+            minSalary,
+            maxSalary,
             salaryCurrency,
             jobType,
             jobWorkMode,
@@ -46,26 +51,29 @@ export class DBClient {
             applyEmails,
             applyLinks,
             technology,
-            experienceRange,
+            minExperience,
+            maxExperience,
             tags,
             raw,
             seekingWork,
             userId,
+            technologyDomain
         } = jobData;
 
         const query = `
-            INSERT INTO public."Job" (
-                company, job_title, salary_range, salary_currency,
-                job_type, job_work_mode, location, apply_emails,
-                apply_links, technology, experience_range, tags,
-                raw, seeking_work, id, updated_at
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-        `;
+        INSERT INTO public."Job" (
+            company, job_title, min_salary, max_salary, salary_currency,
+            job_type, job_work_mode, location, apply_emails,
+            apply_links, technology, min_experience, max_experience, tags,
+            raw, seeking_work, id, updated_at, technology_domain
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+    `;
 
         const values = [
             company,
             jobTitle,
-            salaryRange,
+            minSalary,
+            maxSalary,
             salaryCurrency,
             jobType,
             jobWorkMode,
@@ -73,12 +81,14 @@ export class DBClient {
             applyEmails,
             applyLinks,
             technology,
-            experienceRange,
+            minExperience,
+            maxExperience,
             tags,
             raw,
             seekingWork || false,
             cuid(),
-            new Date()
+            new Date(),
+            technologyDomain
         ];
 
         try {

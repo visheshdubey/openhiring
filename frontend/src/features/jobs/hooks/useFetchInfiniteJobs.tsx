@@ -16,6 +16,7 @@ interface UseFetchInfiniteJobsResult extends Omit<UseInfiniteQueryResult<Paginat
         | {
               jobs: Job[];
               hasMore: boolean;
+              total: number;
           }
         | undefined;
 }
@@ -49,6 +50,7 @@ export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}):
         ? {
               jobs: query.data.pages.flatMap((page) => page.data),
               hasMore: query.hasNextPage ?? false,
+              total: query.data.pages[0].total,
           }
         : undefined;
 

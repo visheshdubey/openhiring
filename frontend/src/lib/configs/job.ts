@@ -24,36 +24,68 @@ export const ShowOptions = Object.freeze({
     Bookmarked: 2,
 });
 
+export const JobTypeStrings = {
+    1: "FullTime",
+    2: "PartTime",
+    3: "Contract",
+    4: "Freelance"
+} as const;
+
+export const JobWorkModeStrings = {
+    1: "Remote",
+    2: "OnSite",
+    3: "Hybrid"
+} as const;
+
+export const TechnologyStrings = {
+    1: "WebDevelopment",
+    2: "BackendDevelopment",
+    3: "FrontendDevelopment",
+    4: "Web3_Blockchain",
+    5: "GameDevelopment"
+} as const;
+
+export const AvailableFilters = Object.freeze({
+    salary: 'salary',
+    experience: 'experience',
+    jobWorkMode: 'jobWorkMode',
+    technology: 'technology',
+    jobType: 'jobType',
+    showOptions: 'showOptions',
+    search: 'search',
+    cursor: 'cursor',
+});
+
 export const FilterOptions = Object.freeze({
-    salary: {
+    [AvailableFilters.salary]: {
         min: 10,
         max: 500,
         step: 5,
     },
-    experience: {
+    [AvailableFilters.experience]: {
         min: 0,
         max: 12,
         step: 1,
     },
-    jobWorkMode: [
+    [AvailableFilters.jobWorkMode]: [
         { id: JobWorkMode.Remote, label: "Remote" },
         { id: JobWorkMode.OnSite, label: "On-Site" },
         { id: JobWorkMode.Hybrid, label: "Hybrid" },
     ],
-    technology: [
+    [AvailableFilters.technology]: [
         { id: Technology.WebDev, label: "Web Development" },
         { id: Technology.Backend, label: "Backend Development" },
         { id: Technology.Frontend, label: "Frontend Development" },
         { id: Technology.Blockchain, label: "Web3/Blockchain" },
         { id: Technology.GameDev, label: "Game Development" },
     ],
-    jobType: [
+    [AvailableFilters.jobType]: [
         { id: JobType.FullTime, label: "Full-Time" },
         { id: JobType.PartTime, label: "Part-Time" },
         { id: JobType.Contract, label: "Contract" },
         { id: JobType.Freelance, label: "Freelance" },
     ],
-    showOptions: [
+    [AvailableFilters.showOptions]: [
         { id: ShowOptions.All, label: "All" },
         { id: ShowOptions.Bookmarked, label: "Bookmarked" },
     ],
@@ -61,9 +93,9 @@ export const FilterOptions = Object.freeze({
 
 
 export const FilterDefaultValues = {
-    salary: [10, 250],
-    experience: [0, 10],
-    showOptions: [ShowOptions.All]
+    [AvailableFilters.salary]: [10, 250],
+    [AvailableFilters.experience]: [0, 10],
+    [AvailableFilters.showOptions]: [ShowOptions.All]
 }
 
 

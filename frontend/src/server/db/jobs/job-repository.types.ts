@@ -1,4 +1,4 @@
-import { Job, JobType, JobWorkMode, Prisma } from "@prisma/client";
+import { Job, Prisma } from "@prisma/client";
 
 // Base Types
 export type SortOrder = 'asc' | 'desc';
@@ -15,8 +15,8 @@ export type PaginatedResponse<T> = {
 // Filter Types
 export type JobFilters = {
     technology?: string[];
-    jobType?: JobType[];
-    jobWorkMode?: JobWorkMode[];
+    jobType?: string[];
+    jobWorkMode?: string[];
     experienceRange?: number[];
     location?: string;
     salaryCurrency?: string;
@@ -141,8 +141,8 @@ export type JobQuery = {
     company?: string;
     jobTitle?: string;
     technology?: string[];
-    jobType?: JobType;
-    jobWorkMode?: JobWorkMode;
+    jobType?: string;
+    jobWorkMode?: string;
     location?: string;
     experienceRange?: number[];
     salaryRange?: string[];

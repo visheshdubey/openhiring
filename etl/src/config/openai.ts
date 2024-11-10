@@ -21,7 +21,7 @@ const instruction = ` Please extract the following information from the given jo
   "applyLinks": [String] or [],
   "technology": [String] or [],
   "technologyDomain":  "WebDevelopment" | "BackendDevelopment" | "FrontendDevelopment" | "Web3_Blockchain" | "GameDevelopment"
-  "seekingWork": Boolean
+  "seekingWork": Boolean, If job post is SEEKING WORK then true
   "minExperience": If a experience year range is not present add experience number here, else add minimum experience, 
   "maxExperience": If a experience year range is present add maximum experience,
   "tags": [String] or []
