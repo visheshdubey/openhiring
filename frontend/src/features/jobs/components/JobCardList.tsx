@@ -1,25 +1,31 @@
 import { Job } from "../types";
 import JobCard from "./JobCard";
 import JobCardSkeleton from "./Skeleton";
+import { Skeleton } from "@/lib/shadcn/components/ui/skeleton";
 
 type Props = {
     totalJobs?: string | number; // Changed from string to number for better type safety
     isError?: boolean;
     status?: "error" | "success" | "pending";
+    isFetchingMore?: boolean;
     jobs: Job[];
 };
 
-const JobCardList = ({ status = "success", jobs = [], totalJobs = 0 }: Props) => {
+const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingMore }: Props) => {
     if (status === "pending") {
         return (
             <>
                 <div className="w-full py-2">
-                    <span className="text-sm text-neutral-500">Loading jobs...</span>
+                    <span className="text-sm text-neutral-500">
+                        <Skeleton className="bg-neutral-100 w-28 h-4"></Skeleton>
+                    </span>
                 </div>
                 <div className="flex flex-col gap-4">
-                    <JobCardSkeleton />
-                    <JobCardSkeleton />
-                    <JobCardSkeleton />
+                    {Array(4)
+                        .fill("")
+                        .map((_, index) => (
+                            <JobCardSkeleton key={`job-list-skeleton-${index}`} />
+                        ))}
                 </div>
             </>
         );
@@ -56,6 +62,7 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0 }: Props) =>
                 {jobs.map((job) => (
                     <JobCard key={job.id} job={job} />
                 ))}
+                {isFetchingMore && <JobCardSkeleton />}
             </div>
         </>
     );

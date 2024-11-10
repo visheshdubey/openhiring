@@ -8,6 +8,7 @@ import JobCardExperienceRange from "./JobCardRangeFieldExperience";
 import JobCardNotSpecifiedFieldPlaceholder from "./JobCardNotSpecifiedFieldPlaceholder";
 import JobCardRangeFieldSalary from "./JobCardRangeFieldSalary";
 import { Separator } from "@/lib/shadcn/ui/separator";
+import { format } from "date-fns";
 import { useState } from "react";
 
 export interface JobCardProps {
@@ -16,7 +17,8 @@ export interface JobCardProps {
 }
 
 const JobCard = ({ job, onEdit }: JobCardProps) => {
-    const [isFavorite, setIsFavorite] = useState(false);
+    // TODO: This to be done using optimisitically
+    const [isFavorite, setIsFavorite] = useState(!isEmpty(job.UserJobBookMarks));
     const [showRawJobDescription, setShowRawJobDescription] = useState(false);
 
     const getBadgeVariant = (tag: string) => {
@@ -36,7 +38,7 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
         return !(isNil(value) || isEmpty(value) || value === "undefined");
     };
 
-    const formatDate = (value: any) => value;
+    const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
 
     return (
         <div className="bg-card flex flex-col gap-5 lg:gap-8 w-full rounded-lg p-4 border border-neutral-100">
@@ -66,7 +68,6 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                     </Button>
                 </div>
             </div>
-
             <div className="flex flex-wrap gap-2 lg:gap-3">
                 {job.jobType && isMeaningfulValue(job.jobType.replace("_", " ")) && (
                     <Badge variant="secondary" className="capitalize">
@@ -94,7 +95,6 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                     </Badge>
                 ))}
             </div>
-
             <div className="flex flex-wrap gap-2">
                 <span className="text-sm text-neutral-600">
                     <JobCardRangeFieldSalary minSalary={job.minSalary} maxSalary={job.maxSalary} currency={job.salaryCurrency} />
@@ -104,14 +104,12 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                     <JobCardExperienceRange minExperience={job.minExperience} maxExperience={job.maxExperience} />
                 </span>
             </div>
-
             <Separator className="bg-neutral-100" />
-
             <div className="flex w-full items-center justify-between">
                 <span className="text-neutral-500 text-xs">Posted on: {formatDate(job.createdAt)}</span>
                 <div className="flex gap-2">
                     <Button variant="link" onClick={() => setShowRawJobDescription(!showRawJobDescription)}>
-                        {showRawJobDescription ? "Hide" : "Show"} raw
+                        {showRawJobDescription ? "Hide" : "Show"} original
                     </Button>
                     {job.applyLinks.length > 0 && (
                         <Button size="sm" onClick={() => window.open(job.applyLinks[0], "_blank")}>
@@ -120,7 +118,6 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                     )}
                 </div>
             </div>
-
             {showRawJobDescription && (
                 <div
                     className="p-4 bg-secondary/60 rounded-lg text-secondary-foreground text-sm"

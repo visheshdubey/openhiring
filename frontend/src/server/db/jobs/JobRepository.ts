@@ -215,7 +215,7 @@ const handleCursorFilter = (value: string) => {
 };
 
 
-export const getJobList = async (take: number = 50, searchQueryParams: any): Promise<PaginatedResponse<Job>> => {
+export const getJobList = async (take: number = 10, searchQueryParams: any, userId?: undefined): Promise<PaginatedResponse<Job>> => {
     const where: JobFindManyWhere = {
         AND: [
             handleSalaryFilter(searchQueryParams[AvailableFilters.salary]) || {},
@@ -223,7 +223,31 @@ export const getJobList = async (take: number = 50, searchQueryParams: any): Pro
             handleJobWorkModeFilter(searchQueryParams[AvailableFilters.jobWorkMode]) || {},
             handleTechnologyFilter(searchQueryParams[AvailableFilters.technology]) || {},
             handleJobTypeFilter(searchQueryParams[AvailableFilters.jobType]) || {},
-            handleSearchFilter(searchQueryParams[AvailableFilters.search]) || {}
+            handleSearchFilter(searchQueryParams[AvailableFilters.search]) || {},
+            {
+                seekingWork: {
+                    equals: false
+                }
+            },
+            {
+                AND: [
+                    {
+                        raw: {
+                            not: {
+                                contains: 'dead'
+                            }
+                        }
+                    },
+                    {
+                        raw: {
+                            not: {
+                                contains: 'flagged'
+                            }
+                        }
+                    },
+                ]
+            }
+
         ],
     }
     const items = await prisma.job.findMany({
@@ -232,7 +256,15 @@ export const getJobList = async (take: number = 50, searchQueryParams: any): Pro
         where,
         orderBy: {
             id: "asc",
+
         },
+        include: {
+            UserJobBookMarks: {
+                where: {
+                    userId
+                }
+            }
+        }
     });
 
     const totalItemsInDb = await prisma.job.count({ where })
@@ -248,15 +280,11 @@ export const getJobList = async (take: number = 50, searchQueryParams: any): Pro
     };
 };
 
-export const totalJobsInDB = async (): Promise<number> => await prisma.job.count();
-
-export const getBookmarkedJobList = async (email: string) => {
-    return await prisma.user.findUnique({
-        where: {
-            email,
-        },
-        select: {
-            bookmarks: true,
-        },
+export const addJobToMyBookMarkList = async (userId: string, jobId: string) => {
+    return await prisma.userJobBookMark.create({
+        data: {
+            jobId,
+            userId
+        }
     });
-};
+}
