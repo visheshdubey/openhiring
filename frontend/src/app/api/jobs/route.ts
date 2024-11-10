@@ -1,8 +1,13 @@
-import { HackerNewsParser } from "@/lib/hackernews-client/HackerNewsParser";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export const POST = async () => {
-    const parser = new HackerNewsParser();
-    const jobs = await parser.process('./output');
+import { getJobList } from "@/server/db/jobs/JobRepository";
 
-    return Response.json({ jobs, length: Object.keys(jobs[0]).length })
+export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
+    // const session = await getAuthSession()
+    // const reqQueryObj = new URL(req.url || '')
+    // console.log(queryStringToObject(reqQueryObj.search)?.salary?.split(',').map(item => Number(item)));
+
+    const jobs = await getJobList()
+
+    return Response.json(jobs)
 }

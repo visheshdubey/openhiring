@@ -21,6 +21,7 @@ model User {
   email     String?  @unique
   avatar    String?
   token     String?
+  provider  String?
   role      UserRole @default(USER)
   bookmarks Job[]
   createdAt DateTime @default(now())
