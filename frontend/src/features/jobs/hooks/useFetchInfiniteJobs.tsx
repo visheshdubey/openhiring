@@ -4,11 +4,14 @@ import apiClient from "@/lib/api-client";
 import { PaginatedResponse } from "@/lib/api-client/types";
 import { Job } from "../types";
 import { QueryKey } from "@/lib/api-client/query-keys";
+import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
 interface UseFetchInfiniteJobsOptions {
     enabled?: boolean;
     pageSize?: number;
     filters?: {};
+    debounceMs?: number;
 }
 
 interface UseFetchInfiniteJobsResult extends Omit<UseInfiniteQueryResult<PaginatedResponse<Job>, Error>, "data"> {
@@ -22,10 +25,24 @@ interface UseFetchInfiniteJobsResult extends Omit<UseInfiniteQueryResult<Paginat
 }
 
 export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}): UseFetchInfiniteJobsResult {
-    const { enabled = true, pageSize = 10, filters } = options;
+    const { enabled = true, pageSize = 10, filters, debounceMs = 150 } = options;
+    const [debouncedFilters, setDebouncedFilters] = useState(filters);
+
+    // Basic debounce added
+    useEffect(() => {
+        const debouncedUpdate = debounce((newFilters) => {
+            setDebouncedFilters(newFilters);
+        }, debounceMs);
+
+        debouncedUpdate(filters);
+
+        return () => {
+            debouncedUpdate.cancel();
+        };
+    }, [filters, debounceMs]);
 
     const query = useInfiniteQuery({
-        queryKey: [QueryKey.JOBS, pageSize, filters],
+        queryKey: [QueryKey.JOBS, pageSize, debouncedFilters],
         queryFn: async ({ pageParam = "" }): Promise<PaginatedResponse<Job>> => {
             const response = (
                 await apiClient.get({
@@ -33,7 +50,7 @@ export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}):
                     params: {
                         cursor: pageParam,
                         limit: pageSize,
-                        ...filters,
+                        ...debouncedFilters,
                     },
                 })
             ).json();
