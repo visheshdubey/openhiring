@@ -9,6 +9,7 @@ declare module "next-auth" {
             username?: string;
             isAdmin?: boolean;
         } & DefaultSession["user"];
+        token?: string;
     }
 
     interface User {

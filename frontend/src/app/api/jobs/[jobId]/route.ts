@@ -1,9 +1,9 @@
 import { getJobById, updateJobById } from "@/server/db/jobs/JobRepository";
 
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 import { getAuthSession } from "@/features/auth/utils";
 
-export const GET = async (req: NextApiRequest, { params }: { params: Promise<{ jobId: string }> }) => {
+export const GET = async (req: NextRequest, { params }: { params: Promise<{ jobId: string }> }) => {
     const job = await getJobById((await params).jobId);
 
     return Response.json(job);

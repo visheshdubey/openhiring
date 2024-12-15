@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import apiClient from "@/lib/api-client";
 import { PaginatedResponse } from "@/lib/api-client/types";
 import { Job } from "../types";
@@ -14,14 +13,22 @@ interface UseFetchInfiniteJobsOptions {
     debounceMs?: number;
 }
 
-interface UseFetchInfiniteJobsResult extends Omit<UseInfiniteQueryResult<PaginatedResponse<Job>, Error>, "data"> {
-    data:
-    | {
+interface UseFetchInfiniteJobsResult {
+    data: {
         jobs: Job[];
         hasMore: boolean;
         total: number;
-    }
-    | undefined;
+    } | undefined;
+    error: Error | null;
+    isError: boolean;
+    isPending: boolean;
+    isLoading: boolean;
+    isFetching: boolean;
+    isFetchingNextPage: boolean;
+    hasNextPage: boolean;
+    fetchNextPage: () => Promise<void>;
+    refetch: () => Promise<void>;
+    status: 'error' | 'pending' | 'success';
 }
 
 export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}): UseFetchInfiniteJobsResult {
@@ -73,8 +80,17 @@ export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}):
         : undefined;
 
     return {
-        ...query,
         data: transformedData,
+        error: query.error,
+        isError: query.isError,
+        isPending: query.isPending,
+        isLoading: query.isLoading,
+        isFetching: query.isFetching,
+        isFetchingNextPage: query.isFetchingNextPage,
+        hasNextPage: query.hasNextPage,
+        fetchNextPage: async () => { await query.fetchNextPage(); },
+        refetch: async () => { await query.refetch(); },
+        status: query.status,
     };
 }
 

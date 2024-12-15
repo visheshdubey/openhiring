@@ -58,7 +58,7 @@ const JobFilters = ({ filterOptions, className }: Props) => {
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
                         onValueChange={(value) => updateFilter("jobWorkMode", value)}
-                        defaultValue={filters.jobWorkMode}
+                        defaultValue={filters.jobWorkMode as any}
                     >
                         {filterOptions.jobWorkMode.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
@@ -70,7 +70,7 @@ const JobFilters = ({ filterOptions, className }: Props) => {
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
                         onValueChange={(value) => updateFilter("technology", value)}
-                        defaultValue={filters.technology}
+                        defaultValue={filters.technology as any}
                     >
                         {filterOptions.technology.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
@@ -82,7 +82,7 @@ const JobFilters = ({ filterOptions, className }: Props) => {
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
                         onValueChange={(value) => updateFilter("showOptions", value)}
-                        defaultValue={filters.showOptions}
+                        defaultValue={filters.showOptions as any}
                     >
                         {filterOptions.showOptions.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
@@ -94,7 +94,7 @@ const JobFilters = ({ filterOptions, className }: Props) => {
                     <MultiSelectFilter
                         className="flex flex-col gap-1.5"
                         onValueChange={(value) => updateFilter("jobType", value)}
-                        defaultValue={filters.jobType}
+                        defaultValue={filters.jobType as any}
                     >
                         {filterOptions.jobType.map((option) => (
                             <MultiSelectCheckbox key={option.id} option={option} className="text-sm" />
