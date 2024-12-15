@@ -1,4 +1,4 @@
-import { AvailableFilters, JobTypeStrings, JobWorkModeStrings, TechnologyStrings } from "@/lib/configs/job";
+import { AvailableFilters, JobTypeStrings, JobWorkModeStrings, ShowOptions, TechnologyStrings } from "@/lib/configs/job";
 import { Job, Prisma } from "@prisma/client";
 import { get, isEmpty } from "lodash";
 
@@ -162,19 +162,26 @@ const handleJobTypeFilter = (value: number[]): JobFindManyWhere => {
     };
 };
 
-// const handleShowOptionsFilter = (value: number[]) => {
-//     if (isEmpty(value)) {
-//         return {};
-//     }
+const handleShowOptionsFilter = (value: number[], userId?: string): JobFindManyWhere => {
+    if (isEmpty(value) || !userId) {
+        return {};
+    }
 
-//     const mappedValues = value.map(item => JobWorkModeKeys[item])
+    if (value.includes(ShowOptions.All)) {
+        return {};
+    }
 
-//     return {
-//         jobWorkMode: {
-//             in: mappedValues
-//         }
-//     }
-// };
+    if (value.includes(ShowOptions.Bookmarked)) {
+        return {
+            UserJobBookMarks: {
+                some: {
+                    userId
+                }
+            }
+        }
+    }
+};
+
 
 const handleSearchFilter = (searchTerm: string): JobFindManyWhere => {
     if (isEmpty(searchTerm)) {
@@ -220,6 +227,7 @@ export const getJobList = async (take: number = 10, searchQueryParams: any, user
             handleTechnologyFilter(searchQueryParams[AvailableFilters.technology]) || {},
             handleJobTypeFilter(searchQueryParams[AvailableFilters.jobType]) || {},
             handleSearchFilter(searchQueryParams[AvailableFilters.search]) || {},
+            handleShowOptionsFilter(searchQueryParams[AvailableFilters.showOptions], userId) || {},
             {
                 seekingWork: {
                     equals: false,
@@ -245,8 +253,6 @@ export const getJobList = async (take: number = 10, searchQueryParams: any, user
             },
         ],
     };
-
-    console.log(JSON.stringify(where));
 
     const items = await prisma.job.findMany({
         take: take + 1,
@@ -278,12 +284,28 @@ export const getJobList = async (take: number = 10, searchQueryParams: any, user
 };
 
 export const addJobToMyBookMarkList = async (userId: string, jobId: string) => {
-    return await prisma.userJobBookMark.create({
-        data: {
+    const existingBookmark = await prisma.userJobBookMark.findFirst({
+        where: {
             jobId,
             userId,
         },
     });
+
+    if (existingBookmark) {
+        return await prisma.userJobBookMark.delete({
+            where: {
+                id: existingBookmark.id,
+            },
+        });
+    }
+    else {
+        return await prisma.userJobBookMark.create({
+            data: {
+                jobId,
+                userId,
+            },
+        });
+    }
 };
 
 export const getJobById = async (jobId: string) => {

@@ -25,16 +25,16 @@ const JobSearchInput: React.FC<JobSearchInputProps> = ({ onSearch, placeholder =
     };
 
     return (
-        <div className={`flex w-full gap-2 mt-5 ${className}`}>
+        <div className={`flex flex-col lg:flex-row w-full gap-2 mt-5 ${className}`}>
             <input
                 type="text"
                 placeholder={placeholder}
-                className="px-4 py-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="px-4 py-2 lg:py-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyPress}
             />
-            <Button className="bg-orange-500 h-full text-lg rounded-lg hover:bg-orange-600 text-white" onClick={handleSearch}>
+            <Button className="bg-orange-500 h-full text-base lg:text-lg rounded-lg hover:bg-orange-600 text-white" onClick={handleSearch}>
                 {buttonText}
             </Button>
         </div>

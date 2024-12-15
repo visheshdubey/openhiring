@@ -4,7 +4,7 @@ import apiClient from "@/lib/api-client";
 import { PaginatedResponse } from "@/lib/api-client/types";
 import { Job } from "../types";
 import { QueryKey } from "@/lib/api-client/query-keys";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { debounce } from "lodash";
 
 interface UseFetchInfiniteJobsOptions {
@@ -16,34 +16,35 @@ interface UseFetchInfiniteJobsOptions {
 
 interface UseFetchInfiniteJobsResult extends Omit<UseInfiniteQueryResult<PaginatedResponse<Job>, Error>, "data"> {
     data:
-        | {
-              jobs: Job[];
-              hasMore: boolean;
-              total: number;
-          }
-        | undefined;
+    | {
+        jobs: Job[];
+        hasMore: boolean;
+        total: number;
+    }
+    | undefined;
 }
 
 export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}): UseFetchInfiniteJobsResult {
     const { enabled = true, pageSize = 10, filters, debounceMs = 150 } = options;
     const [debouncedFilters, setDebouncedFilters] = useState(filters);
 
-    // Basic debounce added
-    useEffect(() => {
-        const debouncedUpdate = debounce((newFilters) => {
+    const debouncedUpdate = useCallback(
+        debounce((newFilters) => {
             setDebouncedFilters(newFilters);
-        }, debounceMs);
+        }, debounceMs),
+        [debounceMs]
+    );
 
+    useEffect(() => {
         debouncedUpdate(filters);
 
         return () => {
             debouncedUpdate.cancel();
         };
-    }, [filters, debounceMs]);
+    }, [filters, debouncedUpdate]);
 
     const query = useInfiniteQuery({
-        // , pageSize, debouncedFilters
-        queryKey: [QueryKey.JOBS],
+        queryKey: [QueryKey.JOBS, debouncedFilters],
         queryFn: async ({ pageParam = "" }): Promise<PaginatedResponse<Job>> => {
             const response = (
                 await apiClient.get({
@@ -63,13 +64,12 @@ export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}):
         enabled,
     });
 
-    // Transform paginated data into flat array with hasMore flag
     const transformedData = query.data
         ? {
-              jobs: query.data.pages.flatMap((page) => page.data),
-              hasMore: query.hasNextPage ?? false,
-              total: query.data.pages[0].total,
-          }
+            jobs: query.data.pages.flatMap((page) => page.data),
+            hasMore: query.hasNextPage ?? false,
+            total: query.data.pages[0].total,
+        }
         : undefined;
 
     return {

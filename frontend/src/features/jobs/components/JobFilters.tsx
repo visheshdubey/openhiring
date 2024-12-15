@@ -5,16 +5,23 @@ import { MultiSelectCheckbox, MultiSelectFilter } from "@/lib/components/ui/Mult
 import { FilterOptionType } from "@/lib/configs/job";
 import JobFilterRow from "./JobFilterRow";
 import { SliderWithTwoThumb } from "@/lib/components/ui/SliderWithTwoThumb";
+import { cn } from "@/lib/shadcn/utils";
 import { useStore } from "@/store/store";
 
 type Props = {
     filterOptions: FilterOptionType;
+    className?: string;
 };
 
-const JobFilters = ({ filterOptions }: Props) => {
+const JobFilters = ({ filterOptions, className }: Props) => {
     const { filters, updateFilter } = useStore((state) => state.jobs);
     return (
-        <div className="w-3/12 hidden lg:block sticky h-fit top-24 max-h-[calc(100vh-56px-48px)] overflow-y-auto scrollbar-none shrink-0 bg-white rounded-lg _shadow shadow-neutral-200/80 border border-neutral-200/70 px-4 pt-4 pb-6">
+        <div
+            className={cn(
+                "w-full lg:w-3/12 sticky h-fit top-24 max-h-[calc(100vh-56px-48px)] overflow-y-auto scrollbar-none shrink-0 bg-white rounded-lg _shadow shadow-neutral-200/80 border border-neutral-200/70 px-4 pt-4 pb-6",
+                className,
+            )}
+        >
             <span className="font-medium">Filters</span>
             <div className="flex flex-col gap-8 mt-6">
                 <JobFilterRow label="Salary range">
