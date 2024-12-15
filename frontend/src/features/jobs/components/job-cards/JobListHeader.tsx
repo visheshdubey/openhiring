@@ -8,22 +8,15 @@ type Props = {
 };
 
 const JobListHeader = ({ totalJobs = 0, isLoading = false }: Props) => {
-    if (isLoading) {
-        return (
-            <div className="flex justify-between items-center w-full py-2">
+    return (
+        <div className="flex justify-between items-center w-full py-2">
+            {isLoading ? (
                 <span className="text-sm text-neutral-500">
                     <Skeleton className="bg-neutral-100 w-28 h-4"></Skeleton>
                 </span>
-                <div className="block lg:hidden">
-                    <JobFilterDrawer filterOptions={FilterOptions} />
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <div className="flex justify-between items-center w-full py-2">
-            <span className="text-sm text-neutral-500">Found {totalJobs} Jobs</span>
+            ) : (
+                <span className="text-sm text-neutral-500">Found {totalJobs} Jobs</span>
+            )}
             <div className="block lg:hidden">
                 <JobFilterDrawer filterOptions={FilterOptions} />
             </div>

@@ -24,7 +24,9 @@ const JobFilters = ({ filterOptions, className }: Props) => {
         >
             <span className="font-medium">Filters</span>
             <div className="flex flex-col gap-8 mt-6">
-                <JobFilterRow label="Salary range">
+                {/* TODO: To be enabled after data sanitization */}
+
+                {/* <JobFilterRow label="Salary range">
                     <SliderWithTwoThumb
                         defaultValue={filters.salary}
                         min={filterOptions.salary.min}
@@ -36,7 +38,7 @@ const JobFilters = ({ filterOptions, className }: Props) => {
                         <span className="text-xs text-neutral-600">${filters.salary[0]}K</span>
                         <span className="text-xs text-neutral-600">${filters.salary[1]}K</span>
                     </div>
-                </JobFilterRow>
+                </JobFilterRow> */}
 
                 <JobFilterRow label="Experience range">
                     <SliderWithTwoThumb
