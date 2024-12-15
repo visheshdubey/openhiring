@@ -26,7 +26,6 @@ const JobCard = memo(({ job, onEdit, onBookmark }: JobCardProps) => {
         onBookmark(job.id);
         setIsFavorite((prev) => !prev);
     }, [job.id, onBookmark]);
-    const handleApply = useCallback(() => window.open(job.applyLinks[0], "_blank"), [job.applyLinks]);
     const toggleDescription = useCallback(() => setShowRawJobDescription((prev) => !prev), []);
 
     const hasApplyLinks = job.applyLinks.length > 0;
@@ -56,16 +55,18 @@ const JobCard = memo(({ job, onEdit, onBookmark }: JobCardProps) => {
                 showRawJobDescription={showRawJobDescription}
                 hasApplyLinks={hasApplyLinks}
                 onToggleDescription={toggleDescription}
-                onApply={handleApply}
                 className="hidden lg:flex"
+                applyLinks={job.applyLinks}
+                applyEmails={job.applyEmails}
             />
             <JobCardFooterMobile
                 createdAt={job.createdAt}
                 showRawJobDescription={showRawJobDescription}
                 hasApplyLinks={hasApplyLinks}
                 onToggleDescription={toggleDescription}
-                onApply={handleApply}
                 className="lg:hidden"
+                applyLinks={job.applyLinks}
+                applyEmails={job.applyEmails}
             />
             {showRawJobDescription && (
                 <div

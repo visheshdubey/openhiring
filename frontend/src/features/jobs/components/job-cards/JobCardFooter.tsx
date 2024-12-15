@@ -1,4 +1,5 @@
 import { Button } from "@/lib/shadcn/ui/button";
+import { JobCardApplyDrawer } from "./JobCardApplyDrawer";
 import { Separator } from "@/lib/shadcn/ui/separator";
 import { cn } from "@/lib/shadcn/utils";
 import { format } from "date-fns";
@@ -8,8 +9,9 @@ interface JobCardFooterProps {
     showRawJobDescription: boolean;
     hasApplyLinks: boolean;
     onToggleDescription: () => void;
-    onApply: () => void;
     className?: string;
+    applyLinks: string[];
+    applyEmails: string[];
 }
 
 export const JobCardFooterDesktop = ({
@@ -17,8 +19,9 @@ export const JobCardFooterDesktop = ({
     showRawJobDescription,
     hasApplyLinks,
     onToggleDescription,
-    onApply,
     className,
+    applyLinks,
+    applyEmails,
 }: JobCardFooterProps) => {
     const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
 
@@ -30,9 +33,9 @@ export const JobCardFooterDesktop = ({
                     {showRawJobDescription ? "Hide" : "Show"} original
                 </Button>
                 {hasApplyLinks && (
-                    <Button size="sm" onClick={onApply}>
-                        Apply
-                    </Button>
+                    <JobCardApplyDrawer links={applyLinks} emails={applyEmails}>
+                        <Button size="sm">Apply</Button>
+                    </JobCardApplyDrawer>
                 )}
             </div>
         </div>
@@ -44,8 +47,9 @@ export const JobCardFooterMobile = ({
     showRawJobDescription,
     hasApplyLinks,
     onToggleDescription,
-    onApply,
     className,
+    applyLinks,
+    applyEmails,
 }: JobCardFooterProps) => {
     const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
 
@@ -56,9 +60,9 @@ export const JobCardFooterMobile = ({
                     {showRawJobDescription ? "Hide" : "Show"} original
                 </Button>
                 {hasApplyLinks && (
-                    <Button size="sm" onClick={onApply}>
-                        Apply
-                    </Button>
+                    <JobCardApplyDrawer links={applyLinks} emails={applyEmails}>
+                        <Button size="sm">Apply</Button>
+                    </JobCardApplyDrawer>
                 )}
             </div>
             <Separator className="bg-neutral-100 w-full my-2" />
