@@ -4,6 +4,7 @@ import { FilterOptions } from "@/lib/configs/job";
 import { Job } from "../types";
 import JobCardList from "./job-cards/JobCardList";
 import JobFilters from "./JobFilters";
+import JobListHeader from "./job-cards/JobListHeader";
 import JobSearchInput from "./JobSearchInput";
 import { useEffect } from "react";
 import { useFetchInfiniteJobs } from "@/features/jobs/hooks/useFetchInfiniteJobs";
@@ -49,6 +50,7 @@ const JobPageContainer = () => {
                         </span>
                         <JobSearchInput onSearch={handleSearch} />
                     </div>
+                    <JobListHeader totalJobs={data?.total} />
                     <JobCardList jobs={data?.jobs || []} status={status} totalJobs={data?.total} isFetchingMore={isFetching} />
                     <div className="size-20" ref={targetRef}></div>
                 </div>

@@ -1,11 +1,9 @@
 "use client";
 
-import { FilterOptions } from "@/lib/configs/job";
 import { Job } from "../../types";
 import JobCard from "./JobCard";
 import JobCardSkeleton from "../Skeleton";
-import JobFilterDrawer from "../JobFilterDrawer";
-import { Skeleton } from "@/lib/shadcn/components/ui/skeleton";
+import JobListHeader from "./JobListHeader";
 import { useBookmarkJob } from "../../hooks/useBookmarkJob";
 import { useRouter } from "next/navigation";
 
@@ -32,11 +30,7 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
     if (status === "pending") {
         return (
             <>
-                <div className="w-full py-2">
-                    <span className="text-sm text-neutral-500">
-                        <Skeleton className="bg-neutral-100 w-28 h-4"></Skeleton>
-                    </span>
-                </div>
+                <JobListHeader isLoading={true} />
                 <div className="flex flex-col gap-4">
                     {Array(4)
                         .fill("")
@@ -72,13 +66,6 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
 
     return (
         <>
-            <div className="flex justify-between items-center w-full py-2">
-                <span className="text-sm text-neutral-500">Found {totalJobs} Jobs</span>
-
-                <div className="block lg:hidden">
-                    <JobFilterDrawer filterOptions={FilterOptions} />
-                </div>
-            </div>
             <div className="flex flex-col gap-4">
                 {jobs.map((job) => (
                     <JobCard key={job.id} job={job} onEdit={handleOnEdit} onBookmark={handleOnBookmark} />
