@@ -2,7 +2,7 @@
 
 import { FilterOptions } from "@/lib/configs/job";
 import { Job } from "../types";
-import JobCardList from "./JobCardList";
+import JobCardList from "./job-cards/JobCardList";
 import JobFilters from "./JobFilters";
 import JobSearchInput from "./JobSearchInput";
 import { useEffect } from "react";

@@ -1,10 +1,10 @@
 "use client";
 
-import { Job } from "../types";
+import { Job } from "../../types";
 import JobCard from "./JobCard";
-import JobCardSkeleton from "./Skeleton";
+import JobCardSkeleton from "../Skeleton";
 import { Skeleton } from "@/lib/shadcn/components/ui/skeleton";
-import { useBookmarkJob } from "../hooks/useBookmarkJob";
+import { useBookmarkJob } from "../../hooks/useBookmarkJob";
 import { useRouter } from "next/navigation";
 
 type Props = {
