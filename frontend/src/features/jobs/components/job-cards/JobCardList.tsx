@@ -30,7 +30,6 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
     if (status === "pending") {
         return (
             <>
-                <JobListHeader isLoading={true} />
                 <div className="flex flex-col gap-4">
                     {Array(4)
                         .fill("")
@@ -45,9 +44,6 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
     if (status === "error") {
         return (
             <>
-                <div className="w-full py-2">
-                    <span className="text-sm text-neutral-500">Error loading jobs</span>
-                </div>
                 <div className="text-center py-8 text-red-500">Failed to load jobs. Please try again later.</div>
             </>
         );
@@ -56,9 +52,6 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
     if (jobs.length === 0) {
         return (
             <>
-                <div className="w-full py-2">
-                    <span className="text-sm text-neutral-500">No jobs found</span>
-                </div>
                 <div className="text-center py-8 text-neutral-500">No jobs found matching your criteria.</div>
             </>
         );

@@ -50,7 +50,7 @@ const JobPageContainer = () => {
                         </span>
                         <JobSearchInput onSearch={handleSearch} />
                     </div>
-                    <JobListHeader totalJobs={data?.total} />
+                    <JobListHeader totalJobs={data?.total} isLoading={isFetching} />
                     <JobCardList jobs={data?.jobs || []} status={status} totalJobs={data?.total} isFetchingMore={isFetching} />
                     <div className="size-20" ref={targetRef}></div>
                 </div>
