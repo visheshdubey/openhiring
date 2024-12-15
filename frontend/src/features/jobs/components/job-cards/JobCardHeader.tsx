@@ -3,6 +3,7 @@ import { Heart, PencilIcon } from "lucide-react";
 import { Button } from "@/lib/shadcn/ui/button";
 import { Job } from "../../types";
 import JobCardNotSpecifiedFieldPlaceholder from "./JobCardNotSpecifiedFieldPlaceholder";
+import { isValidCardValue } from "@/features/jobs/utils/validation";
 
 interface JobCardHeaderProps {
     job: Job;
@@ -13,8 +14,8 @@ interface JobCardHeaderProps {
 }
 
 export const JobCardHeader = ({ job, isFavorite, isAdmin, onEdit, onBookmark }: JobCardHeaderProps) => {
-    const showJobTitle = job.jobTitle !== "undefined";
-    const showCompany = job.company !== "undefined";
+    const showJobTitle = isValidCardValue(job.jobTitle);
+    const showCompany = isValidCardValue(job.company);
 
     return (
         <div className="flex items-start justify-between">

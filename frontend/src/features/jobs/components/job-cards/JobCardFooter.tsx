@@ -1,4 +1,6 @@
 import { Button } from "@/lib/shadcn/ui/button";
+import { Separator } from "@/lib/shadcn/ui/separator";
+import { cn } from "@/lib/shadcn/utils";
 import { format } from "date-fns";
 
 interface JobCardFooterProps {
@@ -7,13 +9,21 @@ interface JobCardFooterProps {
     hasApplyLinks: boolean;
     onToggleDescription: () => void;
     onApply: () => void;
+    className?: string;
 }
 
-export const JobCardFooter = ({ createdAt, showRawJobDescription, hasApplyLinks, onToggleDescription, onApply }: JobCardFooterProps) => {
+export const JobCardFooterDesktop = ({
+    createdAt,
+    showRawJobDescription,
+    hasApplyLinks,
+    onToggleDescription,
+    onApply,
+    className,
+}: JobCardFooterProps) => {
     const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
 
     return (
-        <div className="flex w-full items-center justify-between">
+        <div className={cn("flex w-full items-center justify-between", className)}>
             <span className="text-neutral-500 text-xs">Posted on: {formatDate(createdAt)}</span>
             <div className="flex gap-2">
                 <Button variant="link" onClick={onToggleDescription}>
@@ -25,6 +35,34 @@ export const JobCardFooter = ({ createdAt, showRawJobDescription, hasApplyLinks,
                     </Button>
                 )}
             </div>
+        </div>
+    );
+};
+
+export const JobCardFooterMobile = ({
+    createdAt,
+    showRawJobDescription,
+    hasApplyLinks,
+    onToggleDescription,
+    onApply,
+    className,
+}: JobCardFooterProps) => {
+    const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
+
+    return (
+        <div className={cn("flex w-full flex-col items-center justify-between", className)}>
+            <div className="flex gap-2 w-full items-center justify-between">
+                <Button variant="link" className="p-0" onClick={onToggleDescription}>
+                    {showRawJobDescription ? "Hide" : "Show"} original
+                </Button>
+                {hasApplyLinks && (
+                    <Button size="sm" onClick={onApply}>
+                        Apply
+                    </Button>
+                )}
+            </div>
+            <Separator className="bg-neutral-100 w-full my-2" />
+            <span className="text-neutral-500 text-xs py-0.5 mr-auto">Posted on: {formatDate(createdAt)}</span>
         </div>
     );
 };

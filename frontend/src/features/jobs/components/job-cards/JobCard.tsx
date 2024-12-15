@@ -1,8 +1,8 @@
+import { JobCardFooterDesktop, JobCardFooterMobile } from "./JobCardFooter";
 import { memo, useCallback, useState } from "react";
 
 import { Job } from "../../types";
 import JobCardExperienceRange from "./JobCardRangeFieldExperience";
-import { JobCardFooter } from "./JobCardFooter";
 import { JobCardHeader } from "./JobCardHeader";
 import JobCardRangeFieldSalary from "./JobCardRangeFieldSalary";
 import { JobCardTags } from "./JobCardTags";
@@ -32,7 +32,7 @@ const JobCard = memo(({ job, onEdit, onBookmark }: JobCardProps) => {
     const hasApplyLinks = job.applyLinks.length > 0;
 
     return (
-        <div className="bg-card hover:shadow-sm shadow-neutral-200/80 flex flex-col gap-5 lg:gap-8 w-full bg-white rounded-lg p-4 border border-neutral-200/70">
+        <div className="bg-card hover:shadow-sm shadow-neutral-200/80 flex flex-col gap-5 lg:gap-4 w-full bg-white rounded-lg p-4 lg:p-6 border border-neutral-200/70">
             <JobCardHeader
                 job={job}
                 isFavorite={isFavorite}
@@ -51,12 +51,21 @@ const JobCard = memo(({ job, onEdit, onBookmark }: JobCardProps) => {
                 </span>
             </div>
             <Separator className="bg-neutral-100" />
-            <JobCardFooter
+            <JobCardFooterDesktop
                 createdAt={job.createdAt}
                 showRawJobDescription={showRawJobDescription}
                 hasApplyLinks={hasApplyLinks}
                 onToggleDescription={toggleDescription}
                 onApply={handleApply}
+                className="hidden lg:flex"
+            />
+            <JobCardFooterMobile
+                createdAt={job.createdAt}
+                showRawJobDescription={showRawJobDescription}
+                hasApplyLinks={hasApplyLinks}
+                onToggleDescription={toggleDescription}
+                onApply={handleApply}
+                className="lg:hidden"
             />
             {showRawJobDescription && (
                 <div
