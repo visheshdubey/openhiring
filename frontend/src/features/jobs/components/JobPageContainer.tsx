@@ -37,7 +37,7 @@ const JobPageContainer = () => {
     }, [isIntersecting, hasNextPage, fetchNextPage]);
 
     return (
-        <div className="w-full px-4">
+        <div className="w-full bg-neutral-100 px-4">
             <div className="relative flex max-w-screen-xl w-full mx-auto mt-4 gap-8">
                 <JobFilters filterOptions={FilterOptions} />
 

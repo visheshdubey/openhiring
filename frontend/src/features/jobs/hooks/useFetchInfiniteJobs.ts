@@ -42,7 +42,8 @@ export function useFetchInfiniteJobs(options: UseFetchInfiniteJobsOptions = {}):
     }, [filters, debounceMs]);
 
     const query = useInfiniteQuery({
-        queryKey: [QueryKey.JOBS, pageSize, debouncedFilters],
+        // , pageSize, debouncedFilters
+        queryKey: [QueryKey.JOBS],
         queryFn: async ({ pageParam = "" }): Promise<PaginatedResponse<Job>> => {
             const response = (
                 await apiClient.get({

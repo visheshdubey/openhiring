@@ -19,14 +19,13 @@ export const authOptions: NextAuthOptions = {
             }
 
             try {
-                let dbUser = await findUserByEmail(user.email)
+                let dbUser = await findUserByEmail(user.email);
 
                 if (!dbUser) {
-                    dbUser = await createUser({ email: user.email, provider: account?.provider, avatar: user.image, name: user.name })
+                    dbUser = await createUser({ email: user.email, provider: account?.provider, avatar: user.image, name: user.name });
                 }
 
                 return true;
-
             } catch (error) {
                 console.error("SignIn Error:", error);
                 return false;
@@ -51,7 +50,7 @@ export const authOptions: NextAuthOptions = {
                 return token;
             }
 
-            const dbUser = await findUserByEmail(token.email)
+            const dbUser = await findUserByEmail(token.email);
 
             if (!dbUser) {
                 return token;
@@ -64,6 +63,7 @@ export const authOptions: NextAuthOptions = {
                 email: dbUser.email,
                 avatar: dbUser.avatar,
                 providers: dbUser.provider,
+                isAdmin: dbUser.isAdmin === "ADMIN",
             };
         },
 
@@ -71,11 +71,12 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id;
                 session.user.providers = token.providers;
-                session.user.token = token
+                session.user.isAdmin = token.isAdmin;
+                session.user.token = token;
             }
 
             return session;
-        }
+        },
     },
 
     pages: {
@@ -85,6 +86,5 @@ export const authOptions: NextAuthOptions = {
 
     debug: process.env.NODE_ENV === "development",
 };
-
 
 export default authOptions;

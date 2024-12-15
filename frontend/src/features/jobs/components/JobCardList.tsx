@@ -1,7 +1,11 @@
+"use client";
+
 import { Job } from "../types";
 import JobCard from "./JobCard";
 import JobCardSkeleton from "./Skeleton";
 import { Skeleton } from "@/lib/shadcn/components/ui/skeleton";
+import { useBookmarkJob } from "../hooks/useBookmarkJob";
+import { useRouter } from "next/navigation";
 
 type Props = {
     totalJobs?: string | number; // Changed from string to number for better type safety
@@ -12,6 +16,17 @@ type Props = {
 };
 
 const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingMore }: Props) => {
+    const router = useRouter();
+    const { mutate } = useBookmarkJob();
+
+    const handleOnEdit = (id: string) => {
+        router.push(`jobs/${id}`);
+    };
+
+    const handleOnBookmark = (id: string) => {
+        mutate(id);
+    };
+
     if (status === "pending") {
         return (
             <>
@@ -60,7 +75,7 @@ const JobCardList = ({ status = "success", jobs = [], totalJobs = 0, isFetchingM
             </div>
             <div className="flex flex-col gap-4">
                 {jobs.map((job) => (
-                    <JobCard key={job.id} job={job} />
+                    <JobCard key={job.id} job={job} onEdit={handleOnEdit} onBookmark={handleOnBookmark} />
                 ))}
                 {isFetchingMore && <JobCardSkeleton />}
             </div>

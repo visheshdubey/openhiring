@@ -22,6 +22,7 @@ model User {
   avatar           String?
   token            String?
   provider         String?
+  isAdmin          UserRole          @default(USER)
   role             UserRole          @default(USER)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt

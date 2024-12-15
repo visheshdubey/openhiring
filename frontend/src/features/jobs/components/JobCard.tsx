@@ -1,5 +1,6 @@
 import { Heart, PencilIcon } from "lucide-react";
 import { isEmpty, isNil } from "lodash";
+import { useEffect, useState } from "react";
 
 import { Badge } from "@/lib/shadcn/ui/badge";
 import { Button } from "@/lib/shadcn/ui/button";
@@ -9,17 +10,23 @@ import JobCardNotSpecifiedFieldPlaceholder from "./JobCardNotSpecifiedFieldPlace
 import JobCardRangeFieldSalary from "./JobCardRangeFieldSalary";
 import { Separator } from "@/lib/shadcn/ui/separator";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export interface JobCardProps {
     job: Job;
-    onEdit?: (jobId: string) => void;
+    onEdit: (jobId: string) => void;
+    onBookmark: (jobId: string) => void;
 }
 
-const JobCard = ({ job, onEdit }: JobCardProps) => {
+const JobCard = ({ job, onEdit, onBookmark }: JobCardProps) => {
     // TODO: This to be done using optimisitically
     const [isFavorite, setIsFavorite] = useState(!isEmpty(job.UserJobBookMarks));
     const [showRawJobDescription, setShowRawJobDescription] = useState(false);
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        console.log(job);
+    }, [job]);
 
     const getBadgeVariant = (tag: string) => {
         switch (tag.toLowerCase()) {
@@ -41,7 +48,7 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
     const formatDate = (value: any) => format(new Date(value), "MMM d, yyyy");
 
     return (
-        <div className="bg-card flex flex-col gap-5 lg:gap-8 w-full rounded-lg p-4 border border-neutral-100">
+        <div className="bg-card hover:shadow-sm shadow-neutral-200/80 flex flex-col gap-5 lg:gap-8 w-full bg-white rounded-lg p-4 border border-neutral-200/70">
             <div className="flex items-start justify-between">
                 <div className="flex flex-col">
                     <span className="text-base lg:text-lg capitalize font-medium text-secondary-foreground">
@@ -53,7 +60,7 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    {onEdit && (
+                    {session?.user.isAdmin && (
                         <Button size="icon" variant="ghost" onClick={() => onEdit(job.id)}>
                             <PencilIcon className="size-4" />
                         </Button>
@@ -62,9 +69,9 @@ const JobCard = ({ job, onEdit }: JobCardProps) => {
                         size="icon"
                         variant="outline"
                         className="shadow-none border-primary/40 size-8"
-                        onClick={() => setIsFavorite(!isFavorite)}
+                        onClick={() => onBookmark(job.id)}
                     >
-                        <Heart className={`size-4 ${isFavorite ? "fill-primary text-primary" : "text-primary"}`} />
+                        <Heart className={`size-4 ${isFavorite || job.isBookmarked ? "fill-primary text-primary" : "text-primary"}`} />
                     </Button>
                 </div>
             </div>

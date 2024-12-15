@@ -14,7 +14,7 @@ type Props = {
 const JobFilters = ({ filterOptions }: Props) => {
     const { filters, updateFilter } = useStore((state) => state.jobs);
     return (
-        <div className="w-3/12 hidden lg:block sticky h-fit top-24 max-h-[calc(100vh-56px-48px)] overflow-y-auto scrollbar-none shrink-0 bg-white rounded-lg shadow shadow-neutral-200/80 px-4 pt-4 pb-6">
+        <div className="w-3/12 hidden lg:block sticky h-fit top-24 max-h-[calc(100vh-56px-48px)] overflow-y-auto scrollbar-none shrink-0 bg-white rounded-lg _shadow shadow-neutral-200/80 border border-neutral-200/70 px-4 pt-4 pb-6">
             <span className="font-medium">Filters</span>
             <div className="flex flex-col gap-8 mt-6">
                 <JobFilterRow label="Salary range">
