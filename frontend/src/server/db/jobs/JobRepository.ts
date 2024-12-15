@@ -8,25 +8,25 @@ type PaginatedResponse<T> = {
     data: T[];
     nextCursor: string | null;
     hasMore: boolean;
-    total: number
+    total: number;
 };
 
-type JobFindManyWhere = Prisma.JobFindManyArgs['where']
+type JobFindManyWhere = Prisma.JobFindManyArgs["where"];
 
 const handleSalaryFilter = (value: number[]): JobFindManyWhere => {
     if (isEmpty(value)) {
         return {};
     }
 
-    const minSalary = get(value, `[0]`, 0)
-    const maxSalary = get(value, `[1]`, 10000000)
+    const minSalary = get(value, `[0]`, 0);
+    const maxSalary = get(value, `[1]`, 1000000000000);
 
     if (minSalary === maxSalary) {
         return {
             minSalary: {
-                lte: minSalary
-            }
-        }
+                lte: minSalary,
+            },
+        };
     }
 
     return {
@@ -35,28 +35,28 @@ const handleSalaryFilter = (value: number[]): JobFindManyWhere => {
                 AND: [
                     {
                         minSalary: {
-                            gte: minSalary
-                        }
+                            gte: minSalary,
+                        },
                     },
                     {
                         maxSalary: {
-                            lte: maxSalary
-                        }
-                    }
-                ]
+                            lte: maxSalary,
+                        },
+                    },
+                ],
             },
             {
                 AND: [
                     {
-                        minSalary: null
+                        minSalary: null,
                     },
                     {
-                        maxSalary: null
-                    }
-                ]
-            }
-        ]
-    }
+                        maxSalary: null,
+                    },
+                ],
+            },
+        ],
+    };
 };
 
 const handleExperienceFilter = (value: number[]): JobFindManyWhere => {
@@ -64,15 +64,15 @@ const handleExperienceFilter = (value: number[]): JobFindManyWhere => {
         return {};
     }
 
-    const minExperience = get(value, `[0]`, 0)
-    const maxExperience = get(value, `[1]`, 10000000)
+    const minExperience = get(value, `[0]`, 0);
+    const maxExperience = get(value, `[1]`, 10000000);
 
     if (minExperience === maxExperience) {
         return {
             minExperience: {
-                lte: minExperience
-            }
-        }
+                lte: minExperience,
+            },
+        };
     }
 
     return {
@@ -81,28 +81,28 @@ const handleExperienceFilter = (value: number[]): JobFindManyWhere => {
                 AND: [
                     {
                         minExperience: {
-                            gte: minExperience
-                        }
+                            gte: minExperience,
+                        },
                     },
                     {
                         maxExperience: {
-                            lte: maxExperience
-                        }
-                    }
-                ]
+                            lte: maxExperience,
+                        },
+                    },
+                ],
             },
             {
                 AND: [
                     {
-                        minExperience: null
+                        minExperience: null,
                     },
                     {
-                        maxExperience: null
-                    }
-                ]
-            }
-        ]
-    }
+                        maxExperience: null,
+                    },
+                ],
+            },
+        ],
+    };
 };
 
 const handleJobWorkModeFilter = (value: number[]): JobFindManyWhere => {
@@ -110,19 +110,18 @@ const handleJobWorkModeFilter = (value: number[]): JobFindManyWhere => {
         return {};
     }
 
-    const mappedValues = value.map(item => get(JobWorkModeStrings, item))
+    const mappedValues = value.map((item) => get(JobWorkModeStrings, item));
 
     return {
         OR: [
             {
                 jobWorkMode: {
-                    in: mappedValues
-                }
+                    in: mappedValues,
+                },
             },
-            { jobWorkMode: null }
-        ]
-
-    }
+            { jobWorkMode: null },
+        ],
+    };
 };
 
 const handleTechnologyFilter = (value: number[]): JobFindManyWhere => {
@@ -130,18 +129,18 @@ const handleTechnologyFilter = (value: number[]): JobFindManyWhere => {
         return {};
     }
 
-    const mappedValues = value.map(item => get(TechnologyStrings, item))
+    const mappedValues = value.map((item) => get(TechnologyStrings, item));
 
     return {
         OR: [
             {
                 technologyDomain: {
-                    in: mappedValues
-                }
+                    in: mappedValues,
+                },
             },
             // { technologyDomain: null }
-        ]
-    }
+        ],
+    };
 };
 
 const handleJobTypeFilter = (value: number[]): JobFindManyWhere => {
@@ -149,18 +148,18 @@ const handleJobTypeFilter = (value: number[]): JobFindManyWhere => {
         return {};
     }
 
-    const mappedValues = value.map(item => get(JobTypeStrings, item))
+    const mappedValues = value.map((item) => get(JobTypeStrings, item));
 
     return {
         OR: [
             {
                 jobType: {
-                    in: mappedValues
-                }
+                    in: mappedValues,
+                },
             },
-            { jobType: null }
-        ]
-    }
+            { jobType: null },
+        ],
+    };
 };
 
 // const handleShowOptionsFilter = (value: number[]) => {
@@ -182,22 +181,21 @@ const handleSearchFilter = (searchTerm: string): JobFindManyWhere => {
         return;
     }
 
-    searchTerm = get(searchTerm, '[0]', searchTerm)
+    searchTerm = get(searchTerm, "[0]", searchTerm);
 
     return {
         OR: [
-            { company: { contains: searchTerm, mode: 'insensitive' } },
-            { jobTitle: { contains: searchTerm, mode: 'insensitive' } },
-            { jobType: { contains: searchTerm, mode: 'insensitive' } },
-            { jobWorkMode: { contains: searchTerm, mode: 'insensitive' } },
-            { location: { contains: searchTerm, mode: 'insensitive' } },
-            { technologyDomain: { contains: searchTerm, mode: 'insensitive' } },
-            { raw: { contains: searchTerm, mode: 'insensitive' } },
+            { company: { contains: searchTerm, mode: "insensitive" } },
+            { jobTitle: { contains: searchTerm, mode: "insensitive" } },
+            { jobType: { contains: searchTerm, mode: "insensitive" } },
+            { jobWorkMode: { contains: searchTerm, mode: "insensitive" } },
+            { location: { contains: searchTerm, mode: "insensitive" } },
+            { technologyDomain: { contains: searchTerm, mode: "insensitive" } },
+            { raw: { contains: searchTerm, mode: "insensitive" } },
             { technology: { has: searchTerm } },
-            { tags: { has: searchTerm } }
-        ]
-    }
-
+            { tags: { has: searchTerm } },
+        ],
+    };
 };
 
 const handleCursorFilter = (value: string) => {
@@ -205,20 +203,18 @@ const handleCursorFilter = (value: string) => {
         return;
     }
 
-    return ({
+    return {
         cursor: {
-            id: get(value, '[0]'),
+            id: get(value, "[0]"),
         },
         skip: 1,
-    })
-
+    };
 };
-
 
 export const getJobList = async (take: number = 10, searchQueryParams: any, userId?: undefined): Promise<PaginatedResponse<Job>> => {
     const where: JobFindManyWhere = {
         AND: [
-            handleSalaryFilter(searchQueryParams[AvailableFilters.salary]) || {},
+            // handleSalaryFilter(searchQueryParams[AvailableFilters.salary]) || {},
             handleExperienceFilter(searchQueryParams[AvailableFilters.experience]) || {},
             handleJobWorkModeFilter(searchQueryParams[AvailableFilters.jobWorkMode]) || {},
             handleTechnologyFilter(searchQueryParams[AvailableFilters.technology]) || {},
@@ -226,48 +222,49 @@ export const getJobList = async (take: number = 10, searchQueryParams: any, user
             handleSearchFilter(searchQueryParams[AvailableFilters.search]) || {},
             {
                 seekingWork: {
-                    equals: false
-                }
+                    equals: false,
+                },
             },
             {
                 AND: [
                     {
                         raw: {
                             not: {
-                                contains: 'dead'
-                            }
-                        }
+                                contains: "dead",
+                            },
+                        },
                     },
                     {
                         raw: {
                             not: {
-                                contains: 'flagged'
-                            }
-                        }
+                                contains: "flagged",
+                            },
+                        },
                     },
-                ]
-            }
-
+                ],
+            },
         ],
-    }
+    };
+
+    console.log(JSON.stringify(where));
+
     const items = await prisma.job.findMany({
         take: take + 1,
         ...handleCursorFilter(searchQueryParams[AvailableFilters.cursor]),
         where,
         orderBy: {
             id: "asc",
-
         },
         include: {
             UserJobBookMarks: {
                 where: {
-                    userId
-                }
-            }
-        }
+                    userId,
+                },
+            },
+        },
     });
 
-    const totalItemsInDb = await prisma.job.count({ where })
+    const totalItemsInDb = await prisma.job.count({ where });
 
     const hasMore = items.length > take;
     const data = hasMore ? items.slice(0, -1) : items;
@@ -276,7 +273,7 @@ export const getJobList = async (take: number = 10, searchQueryParams: any, user
         data,
         nextCursor: hasMore ? data[data.length - 1].id : null,
         hasMore,
-        total: totalItemsInDb
+        total: totalItemsInDb,
     };
 };
 
@@ -284,7 +281,24 @@ export const addJobToMyBookMarkList = async (userId: string, jobId: string) => {
     return await prisma.userJobBookMark.create({
         data: {
             jobId,
-            userId
-        }
+            userId,
+        },
     });
-}
+};
+
+export const getJobById = async (jobId: string) => {
+    return await prisma.job.findUnique({
+        where: {
+            id: jobId,
+        },
+    });
+};
+
+export const updateJobById = async (jobId: string, jobData: any) => {
+    return await prisma.job.update({
+        where: {
+            id: jobId,
+        },
+        data: jobData,
+    });
+};
