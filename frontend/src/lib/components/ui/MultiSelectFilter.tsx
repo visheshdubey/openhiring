@@ -8,15 +8,15 @@ type Option = {
 };
 
 type MultiSelectFilterProps = {
-    defaultValue?: string[];
-    value?: string[];
-    onValueChange?: (value: string[]) => void;
+    defaultValue?: number[];
+    value?: number[];
+    onValueChange?: (value: number[]) => void;
     children: React.ReactNode;
-};
+} & Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "value" | "onValueChange">;
 
 type MultiSelectFilterContextType = {
-    selectedItems: string[];
-    toggleItem: (id: string) => void;
+    selectedItems: number[];
+    toggleItem: (id: number) => void;
 };
 
 const MultiSelectFilterContext = React.createContext<MultiSelectFilterContextType | null>(null);
@@ -33,7 +33,7 @@ function useMultiSelectFilter() {
 
 const MultiSelectFilter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & MultiSelectFilterProps>(
     ({ defaultValue = [], value, onValueChange, children, ...props }, ref) => {
-        const [selectedItems, setSelectedItems] = React.useState<string[]>(defaultValue);
+        const [selectedItems, setSelectedItems] = React.useState<number[]>(defaultValue);
 
         React.useEffect(() => {
             if (value) {
@@ -42,7 +42,7 @@ const MultiSelectFilter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
         }, [value]);
 
         const toggleItem = React.useCallback(
-            (id: string) => {
+            (id: number) => {
                 setSelectedItems((prev) => {
                     const newItems = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
 

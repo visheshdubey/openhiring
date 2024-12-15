@@ -12,8 +12,8 @@ export interface Job {
     id: string;
     company: string | undefined;
     jobTitle: string | undefined;
-    minSalary: string;
-    maxSalary: string;
+    minSalary: number;
+    maxSalary: number;
     salaryCurrency: string | undefined;
     jobType: JobType | undefined;
     jobWorkMode: JobWorkMode | undefined;
@@ -22,8 +22,8 @@ export interface Job {
     applyLinks: string[];
     technology: string[];
     technologyDomain: TechnologyDomain;
-    minExperience: string;
-    maxExperience: string;
+    minExperience: number;
+    maxExperience: number;
     tags: string[];
     raw: string;
     seekingWork: boolean;
