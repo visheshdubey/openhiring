@@ -1,4 +1,3 @@
-import AppHeader from "@/features/navigation/components/AppHeader";
 import SignInForm from "@/features/auth/components/SignInForm";
 import { getProviders } from "next-auth/react";
 
@@ -9,7 +8,6 @@ const SigninPage = async (props: Props) => {
 
     return (
         <main className="min-h-screen bg-secondary">
-            <AppHeader />
             <SignInForm providers={providers} />
         </main>
     );
