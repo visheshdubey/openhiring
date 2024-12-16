@@ -109,6 +109,6 @@ class APIClient {
     }
 }
 
-const apiClient = APIClient.getInstance(process.env.BASE_URL_API || 'http://localhost:3000/api/')
+const apiClient = APIClient.getInstance('/api')
 
 export default apiClient
